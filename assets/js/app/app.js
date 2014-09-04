@@ -1,3 +1,5 @@
+(function ($) {
+
 var appMains = {
     models: {},
     views: {},
@@ -71,6 +73,11 @@ Backbone.sync = function(method, model, options) {
     var dao = new model.dao(appMains.db);
         if (options.dbOperation=='findID') {
             dao.findById(model.id, function(data) {
+                options.success(data);
+            });
+        }
+        if (options.dbOperation=='insertQ') {
+            dao.insert(model.toJson(), function(data) {
                 options.success(data);
             });
         }
@@ -177,7 +184,7 @@ var Router = Backbone.Router.extend({
 Backbone.history.start();
 
  console.log(que);
-    window.appMains=appMains;
+ window.appMains=appMains;
 appMains.db = window.openDatabase("QuestDB", "1.0", "Quest DB", 200000);
 var questDAO = new appMains.dao.QuestDAO(appMains.db);
 questDAO.createTable();
