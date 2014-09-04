@@ -60,9 +60,37 @@ var QuestionList = Backbone.Collection.extend({
     model:Question
 });
 
+var Router = Backbone.Router.extend({
+  routes: {
+      '': 'home',
+      'insert': 'insertQuestionForm',
+      'show': 'show'
+  },
+
+  home: function(){
+  
+  },
+
+  insertQuestionForm: function(){
+     $('#container-area').html('insert question form');
+  },
+
+  show: function(){
+      $('#container-area').html('show questionlist');
+  }
+
+});
+
+
+
+
  var question = new Question();
  var que = question.get('question');
  var questionlist = new QuestionList(questionlist);
+ var router = new Router();
+
+Backbone.history.start();
+
  console.log(que);
     
 
