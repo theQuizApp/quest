@@ -164,7 +164,12 @@ var Router = Backbone.Router.extend({
   },
 
   insertQuestionForm: function(){
-     $('#container-area').html('insert question form');
+
+ var questionview = new QuestionView({ el: $("#container-area") });
+
+ questionview.render();
+
+
   },
 
   show: function(){
@@ -174,6 +179,16 @@ var Router = Backbone.Router.extend({
 });
 
 
+QuestionView = Backbone.View.extend({
+        render: function(){
+            // Compile the template using underscore
+            var template = _.template( $("#questionForm").html(), {} );
+            // Load the compiled HTML into the Backbone "el"
+            this.$el.html( template );
+        }
+    });
+    
+   
 
 
  var question = new Question();
