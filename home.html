@@ -48,26 +48,21 @@
 <form class="form-horizontal" role="form">
   <div class="form-group">
     <label for="sel-quant" class="col-sm-2 control-label">Quant</label>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <select name="sel-quant" id="sel-quant" class="form-control">
-        <option value="ds" >ds</option>
-        <option value="ps" >ps</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="sel-verbal" class="col-sm-2 control-label">Verbal</label>
-    <div class="col-sm-3">
-      <select name="sel-verbal" id="sel-verbal" class="form-control">
-        <option value="sc" >sc</option>
+        <optgroup label="Quant">
+          <option value="ds" >ds</option>
+          <option value="ps" >ps</option>
+        </optgroup>
+        <optgroup label="Verbal">
+         <option value="sc" >sc</option>
         <option value="rc" >rc</option>
         <option value="cr" >cr</option>
+        </optgroup>
       </select>
     </div>
-  </div>
-   <div class="form-group">
     <label for="sel-dificulty" class="col-sm-2 control-label">Dificulty</label>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <select name="sel-dificulty" id="sel-dificulty" class="form-control">
         <option value="high" >high</option>
         <option value="medium" >medium</option>
@@ -75,62 +70,55 @@
       </select>
     </div>
   </div>
+
   <div class="form-group">
     <label for="question" class="col-sm-2 control-label">Question</label>
-    <div class="col-sm-3">
+    <div class="col-sm-7">
       <textarea class="form-control" id="question" ></textarea>
     </div>
   </div>
+ 
   <div class="form-group">
     <label for="opt-a" class="col-sm-2 control-label">A</label>
     <div class="col-sm-3">
       <textarea class="form-control" name="opt-a" id="opt-a" ></textarea>
-    </div>
-    <div class="col-sm-1">
       <input type="radio" name="opt-ans" id="opt-ans-a" value="a"  />
     </div>
-  </div>
-  <div class="form-group">
-    <label for="opt-b" class="col-sm-2 control-label">B</label>
+ 
+    <label for="opt-b" class="col-sm-1 control-label">B</label>
     <div class="col-sm-3">
       <textarea class="form-control" name="opt-b" id="opt-b" ></textarea>
-    </div>
-    <div class="col-sm-1">
       <input type="radio" name="opt-ans" id="opt-ans-b" value="b"  />
     </div>
   </div>
+
   <div class="form-group">
     <label for="opt-c" class="col-sm-2 control-label">C</label>
     <div class="col-sm-3">
       <textarea class="form-control" name="opt-c" id="opt-c" ></textarea>
-    </div>
-    <div class="col-sm-1">
       <input type="radio" name="opt-ans" id="opt-ans-c" value="c"  />
     </div>
-  </div>
-  <div class="form-group">
-    <label for="opt-d" class="col-sm-2 control-label">D</label>
+  
+    <label for="opt-d" class="col-sm-1 control-label">D</label>
     <div class="col-sm-3">
       <textarea class="form-control" name="opt-d" id="opt-d" ></textarea>
-    </div>
-    <div class="col-sm-1">
       <input type="radio" name="opt-ans" id="opt-ans-d" value="d"  />
     </div>
   </div>
+
   <div class="form-group">
     <label for="opt-e" class="col-sm-2 control-label">E</label>
     <div class="col-sm-3">
       <textarea class="form-control" name="opt-e" id="opt-e" ></textarea>
-    </div>
-    <div class="col-sm-1">
       <input type="radio" name="opt-ans" id="opt-ans-e" value="e"  />
     </div>
+    
   </div>
   <div class="form-group">
-     <div class="col-sm-offset-2  col-sm-2">
+     <div class="col-sm-offset-7  col-sm-1">
       <button type="button" class="btn btn-default">Reset</button>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-1">
       <button type="submit" class="btn btn-default">Save</button>
     </div>
   </div>
