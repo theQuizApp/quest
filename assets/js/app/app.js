@@ -169,7 +169,7 @@ var Router = Backbone.Router.extend({
 
  questionview.render();
 
-
+$('textarea').cleditor();
   },
 
   show: function(){
@@ -181,6 +181,7 @@ var Router = Backbone.Router.extend({
 
 QuestionView = Backbone.View.extend({
         render: function(){
+			
             // Compile the template using underscore
             var template = _.template( $("#questionForm").html(), {} );
             // Load the compiled HTML into the Backbone "el"
