@@ -186,6 +186,30 @@ QuestionView = Backbone.View.extend({
             var template = _.template( $("#questionForm").html(), {} );
             // Load the compiled HTML into the Backbone "el"
             this.$el.html( template );
+        },
+        events: {
+            'click #submit': 'submitClicked'
+        },
+        submitClicked: function(ev){
+             ev.preventDefault();
+
+
+
+              var questionAns = {
+                    quant: $('#sel-quant option:selected').val(),
+                    dificulty:  $('#sel-dificulty option:selected').val(),
+                    question: $($(".cleditorMain iframe")[0].contentWindow.document).text(),
+                    aopt: $($(".cleditorMain iframe")[1].contentWindow.document).text(),
+                    bopt: $($(".cleditorMain iframe")[2].contentWindow.document).text(),
+                    copt: $($(".cleditorMain iframe")[3].contentWindow.document).text(),
+                    dopt: $($(".cleditorMain iframe")[4].contentWindow.document).text(),
+                    eopt: $($(".cleditorMain iframe")[5].contentWindow.document).text()
+                };
+//var fs = $.param(questionAns);
+
+ var question = new Question();
+ question.set(questionAns);
+                return false;
         }
     });
     
