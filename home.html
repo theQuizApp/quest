@@ -31,7 +31,7 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav pull-right">
-            <li class="active"><a href="">Home</a></li>
+            <li><a href="">Home</a></li>
             <li><a href="#insert">Insert Question</a></li>
             <li><a href="#show">show Result</a></li>
           </ul>
@@ -39,16 +39,17 @@
       </div>
     </nav>
      <section class="container" id="container-area">
-    	 <video width="100%" controls>
+      VIDEO
+    	 <!--<video width="100%" controls>
           <source src="assets/media/video/home-video.mp4" type="video/mp4">
-        </video> 
+        </video> -->
 	</section>
 
 
 <script id="questionForm" type="text/template">
 <form class="form-horizontal" role="form">
   <div class="form-group">
-    <label for="sel-quant" class="col-sm-2 control-label">Quant</label>
+    <label for="sel-quant" class="col-sm-2 control-label">Section</label>
     <div class="col-sm-2">
       <select name="sel-quant" id="sel-quant" class="form-control">
         <optgroup label="Quant">
@@ -168,11 +169,86 @@
       <button type="button" class="btn btn-default">Reset</button>
     </div>
     <div class="col-sm-1">
-      <button type="submit" id="submit" class="btn btn-default">Save</button>
+      <button type="submit" id="submit" class="btn  btn-primary">Save</button>
     </div>
   </div>
 </form>
 </script>
+
+
+<script id="submitQuiz" type="text/template">
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+      <div class="js-repeat-row">
+            <label for="quiz-quant" class="col-sm-2 control-label">Section</label>
+            <div class="col-sm-1">
+              <select name="quiz-quant" id="quiz-quant" class="form-control">
+                <optgroup label="Quant">
+                  <option value="ds" >ds</option>
+                  <option value="ps" >ps</option>
+                </optgroup>
+                <optgroup label="Verbal">
+                  <option value="sc" >sc</option>
+                  <option value="rc" >rc</option>
+                  <option value="cr" >cr</option>
+                </optgroup>
+              </select>
+            </div>
+            <label for="quiz-dificulty" class="col-sm-1 control-label">Dificulty</label>
+            <div class="col-sm-1">
+              <select name="quiz-dificulty" id="quiz-dificulty" class="form-control">
+                <option value="high" >high</option>
+                <option value="medium" >medium</option>
+                <option value="easy" >easy</option>
+              </select>
+            </div>
+            <label for="number" class="col-sm-1 control-label">number</label>
+            <div class="col-sm-1">
+                <input type="text" class="form-control" value="1" id="number" name="number" />
+            </div>
+      </div>
+      <div class="col-sm-1">
+        <input type="button"  class="btn btn-default" value="ADD" id="add" name="add" />
+      </div>     
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-7  col-sm-1">
+         <input type="submit" class="btn btn-primary" name="submitQuiz" id="submitQuiz" value="Start Quiz" />
+      </div>
+    </div>
+  </form>
+</script>
+
+<script id="submitQuizRow" type="text/template">
+  <label for="quiz-quant" class="col-sm-2 control-label">Section</label>
+  <div class="col-sm-1">
+    <select name="quiz-quant" id="quiz-quant" class="form-control">
+      <optgroup label="Quant">
+        <option value="ds" >ds</option>
+        <option value="ps" >ps</option>
+      </optgroup>
+      <optgroup label="Verbal">
+        <option value="sc" >sc</option>
+        <option value="rc" >rc</option>
+        <option value="cr" >cr</option>
+      </optgroup>
+    </select>
+  </div>
+  <label for="quiz-dificulty" class="col-sm-1 control-label">Dificulty</label>
+  <div class="col-sm-1">
+    <select name="quiz-dificulty" id="quiz-dificulty" class="form-control">
+      <option value="high" >high</option>
+      <option value="medium" >medium</option>
+      <option value="easy" >easy</option>
+    </select>
+  </div>
+  <label for="number" class="col-sm-1 control-label">number</label>
+  <div class="col-sm-1">
+      <input type="text" class="form-control" value="1" id="number" name="number" />
+  </div>
+</script>
+            
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->    
