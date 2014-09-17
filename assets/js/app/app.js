@@ -18,17 +18,17 @@ createTable:function(questionModel,callback){
 appMains.db.transaction(
             function(tx) {
                 var sql =
-                    "CREATE TABLE IF NOT EXISTS question ( " +
+                    "CREATE TABLE IF NOT EXISTS question1 ( " +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "section VARCHAR(50), " +
-                    "question VARCHAR(50), " +
-					"optionA VARCHAR(50), " +
-					"optionB VARCHAR(50), " +
-					"optionC VARCHAR(50), " +
-					"optionD VARCHAR(50), " +
-					"optionE VARCHAR(50), " +
-					"time VARCHAR(50), " +
-                    "ans VARCHAR(50));";
+                    "section VARCHAR(50)," +
+                    "question VARCHAR(50)," +
+					"optionA VARCHAR(50)," +
+					"optionB VARCHAR(50)," +
+					"optionC VARCHAR(50)," +
+					"optionD VARCHAR(50)," +
+					"optionE VARCHAR(50)," +
+					"time VARCHAR(50)," +
+                    "ans VARCHAR(50))";
                 console.log(sql);
                 tx.executeSql(sql);
             },
@@ -36,21 +36,36 @@ appMains.db.transaction(
                 alert('Transaction error ' + error);
             },
             function(tx) {
-                callback();
+                console.log(tx);
+               // callback();
             }
         );
 },
 insert:function(questionModel,callback){
+  //  alert("aaa"+questionModel.get('quant'));
 appMains.db.transaction(
             function(tx) {
-               var sql ="INSERT INTO question VALUES (1, 'quant', 'first question', 'a')";
-                console.log('Creating question table');
+
+var v1 = questionModel.get('section');
+
+var v3 = questionModel.get('question');
+var v4 = questionModel.get('optionA');
+var v5 = questionModel.get('optionB');
+var v6 = questionModel.get('optionC');
+var v7 = questionModel.get('optionD');
+var v8 = questionModel.get('optionE');
+var v9 = questionModel.get('time');
+var v10 = questionModel.get('ans');
+
+             var sql ='INSERT INTO question1 (section,question,optionA,optionB,optionC,optionD,optionE,time,ans) VALUES ("'+ v1 +'","'+ v3 +'","'+ v4 +'","'+ v5 +'","'+ v6 +'","'+ v7 +'","'+ v8 +'","'+ v9 +'","'+ v10 +'");';
+                console.log('Creating question1 table');
                 tx.executeSql(sql);
             },
-            function(tx, error) {
+            function addedRow(tx, error) {
                 alert('Transaction error ' + error);
             },
-            function(tx) {
+            function errorHandle(tx) {
+               // alert('Transaction error ' + error);
                 callback();
             }
         );
@@ -60,7 +75,7 @@ appMains.db.transaction(
             function(tx) {
 
                 var sql = "SELECT * " +
-                    "FROM question q " +
+                    "FROM question1 q " +
                     "WHERE q.id=:id";
                 console.log(sql)
                 tx.executeSql(sql, [id], function(tx, results) {
@@ -77,14 +92,16 @@ appMains.db.transaction(
 
 Backbone.sync = function(method, model, options) {
 
+JSON.stringify(model);
     var dao = new model.dao(appMains.db);
+
         if (options.dbOperation=='findID') {
             dao.findById(model.id, function(data) {
                 options.success(data);
             });
         }
         if (options.dbOperation=='insertQ') {
-            dao.insert(model.toJson(), function(data) {
+            dao.insert(model, function(data) {
                 options.success(data);
             });
         }
@@ -92,11 +109,10 @@ Backbone.sync = function(method, model, options) {
 };
 
 appMains.models.Question = Backbone.Model.extend({
-dao: appMains.dao.QuestDAO,
-    initialize: function() {
-        console.log('hi')
-    }
-
+    dao: appMains.dao.QuestDAO,
+        initialize: function() {
+            console.log('hi')
+        }
 });
 
 appMains.router.appRouter = Backbone.Router.extend({
@@ -105,33 +121,23 @@ appMains.router.appRouter = Backbone.Router.extend({
       'insert': 'insertQuestionForm',
       'show': 'show'
   },
-
   home: function(){
   
   },
-
   insertQuestionForm: function(){
-
- var questionview = new QuestionView({ el: $("#container-area") });
-
- questionview.render();
-
-$('textarea').cleditor();
+     var questionview = new appMains.views.QuestionView({ el: $("#container-area") });
+     questionview.render();
+     //$('textarea').cleditor();
   },
-
   show: function(){
       $('#container-area').html('show questionlist');
   }
-
 });
 
 
-QuestionView = Backbone.View.extend({
+appMains.views.QuestionView = Backbone.View.extend({
         render: function(){
-			
-            // Compile the template using underscore
-            var template = _.template( $("#questionForm").html(), {} );
-            // Load the compiled HTML into the Backbone "el"
+		    var template = _.template( $("#questionForm").html(), {} );
             this.$el.html( template );
         },
         events: {
@@ -140,35 +146,48 @@ QuestionView = Backbone.View.extend({
         submitClicked: function(ev){
              ev.preventDefault();
 
-
-
               var questionAns = {
-                    quant: $('#sel-quant option:selected').val(),
+                    section: $('#sel-quant option:selected').val(),
                     dificulty:  $('#sel-dificulty option:selected').val(),
-                    question: $($(".cleditorMain iframe")[0].contentWindow.document).text(),
-                    aopt: $($(".cleditorMain iframe")[1].contentWindow.document).text(),
-                    bopt: $($(".cleditorMain iframe")[2].contentWindow.document).text(),
-                    copt: $($(".cleditorMain iframe")[3].contentWindow.document).text(),
-                    dopt: $($(".cleditorMain iframe")[4].contentWindow.document).text(),
-                    eopt: $($(".cleditorMain iframe")[5].contentWindow.document).text()
+                    question: $('#question').val(),
+                    optionA: $('#opt-a').val(),
+                    optionB: $('#opt-b').val(),
+                    optionC: $('#opt-c').val(),
+                    optionD: $('#opt-d').val(),
+                    optionE: $('#opt-e').val(),
+                    time: '10',
+                    ans: $('input:radio[name=opt-ans]:checked').val()
                 };
-//var fs = $.param(questionAns);
 
- var question = new appMains.models.Question(questionAns)
- question.fetch({dbOperation:'insertQ',success:function(data){console.log(data)}})
+                var question = new appMains.models.Question(); 
+              //  question.fetch({dbOperation:'insertQ',success:function(questionAns){console.log(questionAns)}});
+question.save(questionAns)
+
+ question.fetch({dbOperation:'insertQ',success:function(data){
+
+
+ }});
+       //     question.fetch({dbOperation:'insertQ',success:function(data){console.log(data)}})
+           //console.log(question.toJSON());
+
                 return false;
         }
     });
     
  
- var router = new appMains.router.appRouter();
+        var router = new appMains.router.appRouter();
 
-Backbone.history.start();
+        Backbone.history.start();
 
- window.appMains=appMains;
-appMains.db = window.openDatabase("QuestDB", "1.0", "Quest DB", 200000);
-var questDAO = new appMains.dao.QuestDAO(appMains.db);
-questDAO.createTable();
-questDAO.insert();
+        window.appMains=appMains;
+       
+        appMains.db = window.openDatabase("QuestDB", "1.0", "Quest DB", 200000);
+        var questDAO = new appMains.dao.QuestDAO(appMains.db);
+        
+
+
+
+        questDAO.createTable();
+        questDAO.insert();
     
 })(jQuery);
