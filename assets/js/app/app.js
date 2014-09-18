@@ -4,7 +4,7 @@ var appMains = {
     models: {},
     views: {},
     collection: {},
-	 router: {},
+	router: {},
     utils: {},
     dao: {}
 };
@@ -246,32 +246,32 @@ appMains.views.Submitquiz = Backbone.View.extend({
         },
         submitQuiz: function(ev){
              ev.preventDefault();
-            var modelsarray = [];
-            var i = 0;
+           // var modelsarray = [];
+           // var i = 0;
          
-            $(document).find('.js-repeat').each(function(){
+           // $(document).find('.js-repeat').each(function(){
               
-                  modelsarray.push({
-                        section: $(this).find('select[name=quiz-quant]').find('option:selected').val(),
-                        dificulty: $(this).find('select[name=quiz-dificulty]').find('option:selected').val(),
-                        number: $(this).find('input[name=number]').val()
-                  });
+                  var modelsarray = {
+                        section: $('select[name=quiz-quant]').find('option:selected').val(),
+                        dificulty: $('select[name=quiz-dificulty]').find('option:selected').val(),
+                        number: $('input[name=number]').val()
+                  };
                   
-            });
+          //  });
 
-             var collectionList = new appMains.collection.Submitquiz(modelsarray);
+           //  var collectionList = new appMains.collection.Submitquiz(modelsarray);
                   //collectionList.save(modelsarray);
-                  collectionList.fetch({dbOperation:'insertQuiz',success:function(data){
-                          console.log(data);
-                      }});
+             //     collectionList.fetch({dbOperation:'insertQuiz',success:function(data){
+               //           console.log(data);
+                 //     }});
 
         
 
-     //   var submitquiz = new appMains.models.Submitquiz(); 
-        //    submitquiz.save(collectionList)
-            //submitquiz.fetch({dbOperation:'insertQuiz',success:function(data){
-           //     console.log(data);
-           //   }});
+      var submitquiz = new appMains.models.Submitquiz(); 
+          submitquiz.save(modelsarray)
+            submitquiz.fetch({dbOperation:'insertQuiz',success:function(data){
+                console.log(data);
+              }});
 
               return false;
         },
