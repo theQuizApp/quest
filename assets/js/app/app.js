@@ -3,7 +3,8 @@
 var appMains = {
     models: {},
     views: {},
-	router: {},
+    collection: {},
+	 router: {},
     utils: {},
     dao: {}
 };
@@ -185,6 +186,12 @@ appMains.models.Submitquiz = Backbone.Model.extend({
 });
 //model end//
 
+//collection start//
+appMains.collection.Submitquiz = Backbone.Collection.extend({
+  model: appMains.models.Submitquiz
+});
+//collection end//
+
 //views start here//
 appMains.views.QuestionView = Backbone.View.extend({
         render: function(){
@@ -225,44 +232,54 @@ appMains.views.SubmitQuizRow = Backbone.View.extend({
         render: function(){
         var template = _.template( $("#submitQuizRow").html(), {} );
             this.$el.append( template );
-        },
-        events:{
-          'click #add':'addRowquiz'
-        },
-        addRowquiz: function(ev){
-              ev.preventDefault();
-             var submitQuizRow = new appMains.views.SubmitQuizRow({ el: $(".js-repeat-row") });
-                submitQuizRow.render();
-                
-                  
-              return false;
         }
-
       });
 
 appMains.views.Submitquiz = Backbone.View.extend({
         render: function(){
         var template = _.template( $("#submitQuiz").html(), {} );
-            this.$el.html( template );
+            this.$el.append( template );
         },
         events: {
-            'click #submitQuiz': 'submitQuiz'
+            'click #submitQuiz': 'submitQuiz',
+            'click #add':'addRowquiz'
         },
         submitQuiz: function(ev){
              ev.preventDefault();
+            var modelsarray = [];
+            var i = 0;
+         
+            $(document).find('.js-repeat').each(function(){
+              
+                  modelsarray.push({
+                        section: $(this).find('select[name=quiz-quant]').find('option:selected').val(),
+                        dificulty: $(this).find('select[name=quiz-dificulty]').find('option:selected').val(),
+                        number: $(this).find('input[name=number]').val()
+                  });
+                  
+            });
 
-              var quizSubmit = {
-                    section: $('#quiz-quant option:selected').val(),
-                    dificulty: $('#quiz-dificulty option:selected').val(),
-                    number: $('#number').val()
-                };       
+             var collectionList = new appMains.collection.Submitquiz(modelsarray);
+                  //collectionList.save(modelsarray);
+                  collectionList.fetch({dbOperation:'insertQuiz',success:function(data){
+                          console.log(data);
+                      }});
 
-        var submitquiz = new appMains.models.Submitquiz(); 
-            submitquiz.save(quizSubmit)
-            submitquiz.fetch({dbOperation:'insertQuiz',success:function(data){
-                console.log(data);
-              }});
+        
 
+     //   var submitquiz = new appMains.models.Submitquiz(); 
+        //    submitquiz.save(collectionList)
+            //submitquiz.fetch({dbOperation:'insertQuiz',success:function(data){
+           //     console.log(data);
+           //   }});
+
+              return false;
+        },
+        addRowquiz: function(ev){
+             ev.preventDefault();
+             var submitQuizRow = new appMains.views.SubmitQuizRow({ el: $("#js-repeat-row") });
+                submitQuizRow.render();               
+                  
               return false;
         }        
     });
