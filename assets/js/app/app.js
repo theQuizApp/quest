@@ -35,15 +35,7 @@ appMains.db.transaction(
                 tx.executeSql(sql);
 
 
-                var sql2 =
-                    "CREATE TABLE IF NOT EXISTS quiz ( " +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "section VARCHAR(50)," +
-                    "dificulty VARCHAR(50)," +
-                    "number VARCHAR(50))";
-
-                tx.executeSql(sql2);
-
+             
             },
             function(tx, error) {
                 alert('Transaction error ' + error);
@@ -61,6 +53,7 @@ appMains.db.transaction(
                 var sql2 =
                     "CREATE TABLE IF NOT EXISTS quiz ( " +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "secid VARCHAR(50)," +
                     "section VARCHAR(50)," +
                     "dificulty VARCHAR(50)," +
                     "number VARCHAR(50))";
@@ -124,15 +117,16 @@ findById: function(id, callback) {
         );
   },
   insertQuiz: function(insertQuiz,callback) {
-   console.log(insertQuiz.get('section'));
+
       appMains.db.transaction(
             function(tx) {
 
-            var v1 = insertQuiz.get('section');
-            var v2 = insertQuiz.get('dificulty');
-            var v3 = insertQuiz.get('number');
+            var v1 = insertQuiz.get('secid');
+            var v2 = insertQuiz.get('section');
+            var v3 = insertQuiz.get('dificulty');
+            var v4 = insertQuiz.get('number');
 
-            var sq2 ='INSERT INTO quiz (section,dificulty,number) VALUES ("'+ v1 +'","'+ v2 +'","'+ v3 +'");';
+            var sq2 ='INSERT INTO quiz (secid,section,dificulty,number) VALUES ("'+ v1 +'","'+ v2 +'","'+ v3 +'","'+ v4 +'");';
               console.log('Creating quiz table');
               tx.executeSql(sq2);
             },
@@ -261,9 +255,19 @@ appMains.views.Submitquiz = Backbone.View.extend({
         submitQuiz: function(ev){
              ev.preventDefault();
             var modelsarray = [];
-         
-            $(document).find('.js-repeat').each(function(){              
+
+
+             if(typeof(Storage) !== "undefined") {
+              if (localStorage.clickcount) {
+                  localStorage.clickcount = Number(localStorage.clickcount)+1;
+              } else {
+                  localStorage.clickcount = 1;
+              }
+
+               $(document).find('.js-repeat').each(function(){ 
+
                    var a = {
+                        secid: localStorage.clickcount,
                         section: $(this).find('select[name=quiz-quant]').find('option:selected').val(),
                         dificulty:  $(this).find('select[name=quiz-dificulty]').find('option:selected').val(),
                         number:  $(this).find('input[name=number]').val()
@@ -273,6 +277,7 @@ appMains.views.Submitquiz = Backbone.View.extend({
 
             var collectionList = new appMains.collection.Submitquiz();
                 collectionList.save(modelsarray);
+          } 
                   
               return false;
         },
