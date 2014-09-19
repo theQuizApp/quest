@@ -1,13 +1,13 @@
 (function ($) {
 
 var appMains = {
-    models: {},
-    views: {},
-    collection: {},
-	router: {},
-    utils: {},
-    dao: {}
-};
+                models: {},
+                views: {},
+                collection: {},
+                router: {},
+                utils: {},
+                dao: {}
+              };
 
 appMains.dao.QuestDAO = function(db) {
     this.db = db;
@@ -124,6 +124,7 @@ findById: function(id, callback) {
         );
   },
   insertQuiz: function(insertQuiz,callback) {
+   console.log(insertQuiz.get('section'));
       appMains.db.transaction(
             function(tx) {
 
@@ -149,7 +150,7 @@ findById: function(id, callback) {
 
 Backbone.sync = function(method, model, options) {
 
-JSON.stringify(model);
+//JSON.stringify(model);
     var dao = new model.dao(appMains.db);
 
         if (options.dbOperation=='findID') {
@@ -188,7 +189,20 @@ appMains.models.Submitquiz = Backbone.Model.extend({
 
 //collection start//
 appMains.collection.Submitquiz = Backbone.Collection.extend({
-  model: appMains.models.Submitquiz
+  model: appMains.models.Submitquiz,
+  save: function(module){
+      
+          for(var i =0; i<=module.length-1;i++)
+          {
+             console.log(module[i]);
+              submitquiz = new appMains.models.Submitquiz(); 
+              submitquiz.save(module[i]);
+              submitquiz.fetch({dbOperation:'insertQuiz',success:function(data){
+                 
+                }});
+
+          }
+  }
 });
 //collection end//
 
@@ -241,38 +255,25 @@ appMains.views.Submitquiz = Backbone.View.extend({
             this.$el.append( template );
         },
         events: {
-            'click #submitQuiz': 'submitQuiz',
+            'click #submitQuizbtn': 'submitQuiz',
             'click #add':'addRowquiz'
         },
         submitQuiz: function(ev){
              ev.preventDefault();
-           // var modelsarray = [];
-           // var i = 0;
+            var modelsarray = [];
          
-           // $(document).find('.js-repeat').each(function(){
-              
-                  var modelsarray = {
-                        section: $('select[name=quiz-quant]').find('option:selected').val(),
-                        dificulty: $('select[name=quiz-dificulty]').find('option:selected').val(),
-                        number: $('input[name=number]').val()
+            $(document).find('.js-repeat').each(function(){              
+                   var a = {
+                        section: $(this).find('select[name=quiz-quant]').find('option:selected').val(),
+                        dificulty:  $(this).find('select[name=quiz-dificulty]').find('option:selected').val(),
+                        number:  $(this).find('input[name=number]').val()
                   };
+                  modelsarray.push(a);
+            });
+
+            var collectionList = new appMains.collection.Submitquiz();
+                collectionList.save(modelsarray);
                   
-          //  });
-
-           //  var collectionList = new appMains.collection.Submitquiz(modelsarray);
-                  //collectionList.save(modelsarray);
-             //     collectionList.fetch({dbOperation:'insertQuiz',success:function(data){
-               //           console.log(data);
-                 //     }});
-
-        
-
-      var submitquiz = new appMains.models.Submitquiz(); 
-          submitquiz.save(modelsarray)
-            submitquiz.fetch({dbOperation:'insertQuiz',success:function(data){
-                console.log(data);
-              }});
-
               return false;
         },
         addRowquiz: function(ev){
