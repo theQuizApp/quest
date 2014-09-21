@@ -243,14 +243,17 @@ appMains.views.SubmitQuizRow = Backbone.View.extend({
         }
       });
 
+
+
 appMains.views.Submitquiz = Backbone.View.extend({
         render: function(){
         var template = _.template( $("#submitQuiz").html(), {} );
-            this.$el.append( template );
+            this.$el.html( template );
         },
         events: {
             'click #submitQuizbtn': 'submitQuiz',
-            'click #add':'addRowquiz'
+            'click #add':'addRowquiz',
+            'click #remove':'removeRowquiz'
         },
         submitQuiz: function(ev){
              ev.preventDefault();
@@ -278,7 +281,7 @@ appMains.views.Submitquiz = Backbone.View.extend({
             var collectionList = new appMains.collection.Submitquiz();
                 collectionList.save(modelsarray);
           } 
-                  
+                
               return false;
         },
         addRowquiz: function(ev){
@@ -287,6 +290,12 @@ appMains.views.Submitquiz = Backbone.View.extend({
                 submitQuizRow.render();               
                   
               return false;
+        },
+        removeRowquiz: function(ev){
+          ev.preventDefault();
+             $(ev.target).closest('.js-repeat').remove();
+              return false;
+
         }        
     });
     //view end here
