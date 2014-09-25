@@ -8,7 +8,7 @@
 
     <!-- Bootstrap -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
-	 <link href="assets/css/jquery.cleditor.css" rel="stylesheet">
+	  <link href="assets/css/jquery.cleditor.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,7 +33,7 @@
           <ul class="nav navbar-nav pull-right">
             <li><a href="">Home</a></li>
             <li><a href="#insert">Insert Question</a></li>
-            <li><a href="#show">show Result</a></li>
+            <li><a href="#show">Star Quiz</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -76,99 +76,75 @@
   <div class="form-group">
     <label for="question" class="col-sm-2 control-label">Question</label>
     <div class="col-sm-7">
-      <textarea class="form-control" id="question" ></textarea>
+    <textarea cols="80" class="form-control" id="question" name="question"  rows="10">as</textarea>
+    
     </div>
   </div>
- 
-  <div class="form-group">
+
+
+<div class="form-group">
+
     <label for="question" class="col-sm-2 control-label">Options</label>
-    <div class="col-sm-7">
-     <div class="panel-group" id="accordion">
-	  <div class="panel panel-default">
-		<div class="panel-heading">
-		  <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
-		   
-			 A
-			
-		 <input type="radio" name="opt-ans" id="opt-ans-a" value="a"  />
-		  </h4>
-		</div>
-		<div id="collapseOne" class="collapse in">
-		  <div class="panel-body">
-		   <textarea class="form-control" name="opt-a" id="opt-a" ></textarea>
-		  </div>
-		</div>
-	  </div>
-	  <div class="panel panel-default">
-		<div class="panel-heading">
-		  <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
-		 
-			  B
-			   <input type="radio" name="opt-ans" id="opt-ans-b" value="b"  />
-		  </h4>
-		</div>
-		<div id="collapseTwo" class="collapse">
-		  <div class="panel-body">
-		  <textarea class="form-control" name="opt-b" id="opt-b" ></textarea>
-		  </div>
-		</div>
-	  </div>
-	  <div class="panel panel-default">
-		<div class="panel-heading">
-		  <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree" >
-		
-			 C
-
-			 <input type="radio" name="opt-ans" id="opt-ans-c" value="c"  />
-		  </h4>
-		</div>
-		<div id="collapseThree" class="panel-collapse collapse">
-		  <div class="panel-body">
-		   <textarea class="form-control" name="opt-c" id="opt-c" ></textarea>
-		  </div>
-		</div>
-	  </div>
-	  
-	  <div class="panel panel-default">
-		<div class="panel-heading">
-		  <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFoure">
-		 
-			 D
-			<input type="radio" name="opt-ans" id="opt-ans-d" value="d"  />
-		  </h4>
-		</div>
-		<div id="collapseFoure" class="panel-collapse collapse">
-		  <div class="panel-body">
-		   <textarea class="form-control" name="opt-d" id="opt-d" ></textarea>
-		  </div>
-		</div>
-	  </div>
-  
-	  <div class="panel panel-default">
-		<div class="panel-heading">
-		  <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapsefive">
-		  
-			 E
-			
-		   <input type="radio" name="opt-ans" id="opt-ans-e" value="e"  />
-		  </h4>
-		</div>
-		<div id="collapsefive" class="panel-collapse collapse">
-		  <div class="panel-body">
-		   <textarea class="form-control" name="opt-e" id="opt-e" ></textarea>
-		  </div>
-		</div>
-	  </div>  
-	  
-	</div>
-    </div>
-  </div>
-
+<div class="col-lg-7">
+    <div class="input-group">
+      <span class="input-group-addon">
+         A <input type="radio" name="opt-ans" checked id="opt-ans-a" value="a"  />
+      </span>
+      
+       <textarea class="form-control" name="opt-a" id="opt-a" ></textarea>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div>
+<div class="form-group">
+  <div class="col-lg-7 col-sm-offset-2">
+    <div class="input-group">
+      <span class="input-group-addon">
+         B <input type="radio" name="opt-ans" id="opt-ans-b" value="b"  />
+      </span>
+      
+       <textarea class="form-control" name="opt-b" id="opt-b" ></textarea>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div>
+<div class="form-group">
+  <div class="col-lg-7 col-sm-offset-2">
+    <div class="input-group">
+      <span class="input-group-addon">
+         C <input type="radio" name="opt-ans" id="opt-ans-c" value="c"  />
+      </span>
+      
+       <textarea class="form-control" name="opt-c" id="opt-c" ></textarea>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div>
+<div class="form-group">
+  <div class="col-lg-7 col-sm-offset-2">
+    <div class="input-group">
+      <span class="input-group-addon">
+         D <input type="radio" name="opt-ans" id="opt-ans-d" value="d"  />
+      </span>
+      
+       <textarea class="form-control" name="opt-d" id="opt-d" ></textarea>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div>
+  <div class="form-group">
+  <div class="col-lg-7 col-sm-offset-2">
+    <div class="input-group">
+      <span class="input-group-addon">
+         E <input type="radio" name="opt-ans" id="opt-ans-e" value="e"  />
+      </span>
+      
+       <textarea class="form-control" name="opt-e" id="opt-e" ></textarea>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div>
+ 
   <div class="form-group">
      <div class="col-sm-offset-7  col-sm-1">
       <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
     </div>
-    <div class="col-sm-1">
+    <div class="col-lg-1">
       <button type="button" id="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-saved"></span> Save</button>
     </div>
   </div>
@@ -203,12 +179,12 @@
                 <option value="easy" >easy</option>
               </select>
             </div>
-            <label for="number" class="col-sm-1 control-label">number</label>
+            <label for="number" class="col-sm-1 control-label">Number</label>
             <div class="col-sm-1">
                 <input type="text" class="form-control" value="1" id="number" name="number" />
             </div>
             <div class="col-sm-1">
-             <button type="button" id="add" name="add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add</button>
+             <button type="button" id="add" name="add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
             </div>  
       </div>         
     </div>
@@ -246,24 +222,81 @@
       <option value="easy" >easy</option>
     </select>
   </div>
-  <label for="number" class="col-sm-1 control-label">number</label>
+  <label for="number" class="col-sm-1 control-label">Number</label>
   <div class="col-sm-1">
       <input type="text" class="form-control" value="1" id="number" name="number" />
   </div>
   <div class="col-sm-1">
-     <button type="button" id="remove" name="remove" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Remove</button>
+     <button type="button" id="remove" name="remove" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
   </div>  
   </div>
 </script>
+
+
+<script id="submitAnsTempate" type="text/template">
+<form id="ansSubmitForm" role="form">
+  <div class="form-group js-repeat col-sm-offset-2">
+       <h3><span>1</span> why</h3>
+     <div class="radio">
+        <label>
+          <input type="radio" name="optionsAns" id="optionsRadios1" value="a" >
+          E
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsAns" id="optionsRadios2" value="b">
+         D
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsAns" id="optionsRadios3" value="c" >
+          C
+        </label>
+      </div>
+    <div class="radio">
+        <label>
+          <input type="radio" name="optionsAns" id="optionsRadios4" value="d" >
+        B
+        </label>
+      </div>
+    <div class="radio">
+        <label>
+          <input type="radio" name="optionsAns" id="optionsRadios5" value="e" >
+         A
+        </label>
+      </div>
+   
+  <div class="form-group">
+    <div id="time" class=" col-sm-offset-5 col-sm-2" > 
+        <span id="sw_h">00</span>:
+        <span id="sw_m">00</span>:
+        <span id="sw_s">00</span>:
+        <span id="sw_ms">00</span>
+    </div> 
+      <div class=" col-sm-1">    
+          <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Next</button>
+      </div>
+      </div>
+  </div>
+</form>
+</script>
+
+
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->    
     <script src="assets/js/lib/jquery-1.7.1.js"></script>
+
     <script src="assets/js/lib/bootstrap.min.js"></script>
     <script src="assets/js/lib/underscore.js"></script>
     <script src="assets/js/lib/backbone.js"></script>
-	<script src="assets/js/lib/jquery.cleditor.min.js"></script>
-    <script src="assets/js/app/app.js"></script>
+    <script src="assets/js/lib/jquery.cleditor.min.js"></script>
+	  <script src="assets/js/app/app.js"></script>
+    <script src="assets/js/lib/timer.js"></script>
+    
   </body>
 </html>

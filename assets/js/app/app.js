@@ -116,6 +116,23 @@ findById: function(id, callback) {
             }
         );
   },
+  findByIdQuiz: function(id, callback) {
+        this.db.transaction(
+            function(tx) {
+
+                var sql = "SELECT * " +
+                    "FROM quiz q " +
+                    "WHERE q.id=:id";
+                console.log(sql)
+                tx.executeSql(sql, [id], function(tx, results) {
+                    callback(results.rows.length === 1 ? results.rows.item(0) : null);
+                });
+            },
+            function(tx, error) {
+                alert("Transaction Error: " + error);
+            }
+        );
+  },
   insertQuiz: function(insertQuiz,callback) {
 
       appMains.db.transaction(
@@ -152,6 +169,13 @@ Backbone.sync = function(method, model, options) {
                 options.success(data);
             });
         }
+
+        if (options.dbOperation=='findByIdQuiz') {
+            dao.findById(model.id, function(data) {
+                options.success(data);
+            });
+        }
+        
         if (options.dbOperation=='insertQ') {
             dao.insert(model, function(data) {
                 options.success(data);
@@ -190,8 +214,7 @@ appMains.collection.Submitquiz = Backbone.Collection.extend({
           {
              console.log(module[i]);
               submitquiz = new appMains.models.Submitquiz(); 
-              submitquiz.save(module[i]);
-              submitquiz.fetch({dbOperation:'insertQuiz',success:function(data){
+              submitquiz.save(module[i],{dbOperation:'insertQuiz',success:function(data){
                  
                 }});
 
@@ -226,10 +249,11 @@ appMains.views.QuestionView = Backbone.View.extend({
               };
 
             var question = new appMains.models.Question(); 
-            question.save(questionAns)
-            question.fetch({dbOperation:'insertQ',success:function(data){
-                console.log(data);
-              }});
+
+                question.save(questionAns,{dbOperation:'insertQ',success:function(data){
+                    console.log(data);
+                  }});
+            
 
               return false;
         }
@@ -240,6 +264,23 @@ appMains.views.SubmitQuizRow = Backbone.View.extend({
         render: function(){
         var template = _.template( $("#submitQuizRow").html(), {} );
             this.$el.append( template );
+        }
+      });
+
+appMains.views.SubmitAns = Backbone.View.extend({
+        render: function(){
+        var template = _.template( $("#submitAnsTempate").html(), {} );
+            this.$el.html( template );
+        },
+        events: {
+            'click #submitAns': 'nextQuestion',
+        },
+        nextQuestion: function(){
+            
+            $.APP.stopTimer();
+            var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
+             submitAns.render();  
+             $.APP.startTimer('sw');
         }
       });
 
@@ -257,8 +298,8 @@ appMains.views.Submitquiz = Backbone.View.extend({
         },
         submitQuiz: function(ev){
              ev.preventDefault();
+           
             var modelsarray = [];
-
 
              if(typeof(Storage) !== "undefined") {
               if (localStorage.clickcount) {
@@ -281,6 +322,10 @@ appMains.views.Submitquiz = Backbone.View.extend({
             var collectionList = new appMains.collection.Submitquiz();
                 collectionList.save(modelsarray);
           } 
+
+           var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
+               submitAns.render();  
+               $.APP.startTimer('sw');
                 
               return false;
         },
@@ -312,8 +357,16 @@ appMains.views.Submitquiz = Backbone.View.extend({
         insertQuestionForm: function(){
            var questionview = new appMains.views.QuestionView({ el: $("#container-area") });
            questionview.render();
-            
-           $('.navbar-nav li').removeClass('active');
+          
+           $('#question').cleditor({ 
+                    height: 200, // height not including margins, borders or padding
+                    controls: // controls to add to the toolbar
+                    "bold italic underline strikethrough subscript superscript | font size " +
+                    "style | color highlight removeformat | bullets numbering | outdent " +
+                    "indent | alignleft center alignright justify | undo redo | " +
+                    "rule image | source"})
+
+          // $('.navbar-nav li').removeClass('active');
         },
         show: function(){
             var submitquiz = new appMains.views.Submitquiz({ el: $("#container-area") });
@@ -327,7 +380,9 @@ appMains.views.Submitquiz = Backbone.View.extend({
     Backbone.history.start();
     window.appMains=appMains;
    
-
+//var question = new appMains.models.Question({id:1});
+//question.fetch({dbOperation:'findID',success:function(data){console.log(data)}});
+//question.toJSON();
 
     appMains.db = window.openDatabase("QuestDB", "1.0", "Quest DB", 200000);
     var questDAO = new appMains.dao.QuestDAO(appMains.db);
