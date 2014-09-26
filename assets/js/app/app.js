@@ -384,6 +384,65 @@ appMains.views.Submitquiz = Backbone.View.extend({
 //question.fetch({dbOperation:'findID',success:function(data){console.log(data)}});
 //question.toJSON();
 
+
+
+appMains.models.QuestionShow = Backbone.Model.extend({
+  defaults: {
+      question:'why aaa',
+      optionA:'30',
+      optionB:'worker',
+      optionC:'ss',
+      optionD:'ss',
+      optionE:'d'
+  }
+});
+
+
+
+appMains.models.QuestionCollection = Backbone.Collection.extend({
+  modale:appMains.models.QuestionShow
+});
+
+
+
+
+var questionCollection = new appMains.models.QuestionCollection([
+  {
+      question: '1 Why this ?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  },
+  {
+      question: '2 Why this ?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  },
+  {
+      question: '3 Why this ?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  },
+  {
+      question: '4 Why this ?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  }
+]);
+
+
+
     appMains.db = window.openDatabase("QuestDB", "1.0", "Quest DB", 200000);
     var questDAO = new appMains.dao.QuestDAO(appMains.db);
     questDAO.createTable();

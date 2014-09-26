@@ -236,9 +236,10 @@
 <script id="submitAnsTempate" type="text/template">
 <form id="ansSubmitForm" role="form">
   <div class="form-group js-repeat col-sm-offset-2">
-       <h3><span>1</span> why</h3>
+       <h3><span>1</span> <%= question %> why</h3>
      <div class="radio">
         <label>
+          <%= optionA %>
           <input type="radio" name="optionsAns" id="optionsRadios1" value="a" >
           E
         </label>
