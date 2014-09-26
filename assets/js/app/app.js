@@ -400,7 +400,7 @@ appMains.models.QuestionShow = Backbone.Model.extend({
 
 
 appMains.models.QuestionCollection = Backbone.Collection.extend({
-  modale:appMains.models.QuestionShow
+  model:appMains.models.QuestionShow
 });
 
 
