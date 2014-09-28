@@ -278,8 +278,11 @@ appMains.views.SubmitAns = Backbone.View.extend({
         nextQuestion: function(){
             
             $.APP.stopTimer();
-            var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
-             submitAns.render();  
+        //    var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
+          //   submitAns.render();  
+console.log(this);
+              $('.questionView').hide();
+
              $.APP.startTimer('sw');
         }
       });
@@ -327,7 +330,8 @@ appMains.views.Submitquiz = Backbone.View.extend({
           //     submitAns.render();  
 
            var questionInner = new appMains.views.QueOuterView();
-
+          $('.questionView').hide();
+          $('.questionView:first').show();
                $.APP.startTimer('sw');
                 
               return false;
@@ -407,7 +411,7 @@ var questionCollection = [
       optionE:'e'
   },
   {
-      question: '2 Why this ?',
+      question: '2 What is this ?',
       optionA:'a',
       optionB:'b',
       optionC:'c',
@@ -415,7 +419,7 @@ var questionCollection = [
       optionE:'e'
   },
   {
-      question: '3 Why this ?',
+      question: '3 how?',
       optionA:'a',
       optionB:'b',
       optionC:'c',
@@ -423,7 +427,7 @@ var questionCollection = [
       optionE:'e'
   },
   {
-      question: '4 Why this ?',
+      question: '4 When ?',
       optionA:'a',
       optionB:'b',
       optionC:'c',
@@ -439,10 +443,17 @@ appMains.views.QueInnerNextView = Backbone.View.extend({
         tagName:"section",
         className:"questionView clearfix",
         template:$("#submitAnsTempate").html(),
+       events: {
+            'click #submitAns': 'nextQuestion',
+        },
         render:function () {
             var tmpl = _.template(this.template); 
             this.$el.html(tmpl(this.model.toJSON())); 
             return this;
+        },
+        nextQuestion:function(){
+          $('.questionView').hide()
+          $(this.el.nextSibling).show();
         }
     });
 

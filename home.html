@@ -275,7 +275,12 @@
         <span id="sw_s">00</span>:
         <span id="sw_ms">00</span>
     </div> 
-      <div class=" col-sm-1">    
+      <div class=" col-sm-1"> 
+
+<% if (typeof(question).length == question) { %>
+     <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Submit QUiz</button>
+<% } %>
+
           <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Next</button>
       </div>
       </div>
