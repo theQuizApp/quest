@@ -323,8 +323,11 @@ appMains.views.Submitquiz = Backbone.View.extend({
                 collectionList.save(modelsarray);
           } 
 
-           var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
-               submitAns.render();  
+          // var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
+          //     submitAns.render();  
+
+           var questionInner = new appMains.views.QueOuterView();
+
                $.APP.startTimer('sw');
                 
               return false;
@@ -385,28 +388,16 @@ appMains.views.Submitquiz = Backbone.View.extend({
 //question.toJSON();
 
 
-
-appMains.models.QuestionShow = Backbone.Model.extend({
-  defaults: {
-      question:'why aaa',
-      optionA:'30',
-      optionB:'worker',
-      optionC:'ss',
-      optionD:'ss',
-      optionE:'d'
-  }
-});
-
-
-
+//model
+appMains.models.QuestionShow = Backbone.Model.extend();
+//collection
 appMains.models.QuestionCollection = Backbone.Collection.extend({
   model:appMains.models.QuestionShow
 });
 
 
 
-
-var questionCollection = new appMains.models.QuestionCollection([
+var questionCollection = [
   {
       question: '1 Why this ?',
       optionA:'a',
@@ -439,7 +430,45 @@ var questionCollection = new appMains.models.QuestionCollection([
       optionD:'d',
       optionE:'e'
   }
-]);
+];
+
+
+
+
+appMains.views.QueInnerNextView = Backbone.View.extend({
+        tagName:"section",
+        className:"questionView clearfix",
+        template:$("#submitAnsTempate").html(),
+        render:function () {
+            var tmpl = _.template(this.template); 
+            this.$el.html(tmpl(this.model.toJSON())); 
+            return this;
+        }
+    });
+
+appMains.views.QueOuterView = Backbone.View.extend({
+        el:$("#container-area"),
+     
+        initialize:function(){
+            this.collection = new appMains.models.QuestionCollection(questionCollection);
+            this.render();
+        },
+
+        render: function(){
+            var that = this;
+            _.each(this.collection.models, function(item){
+                that.renderQuestionView(item);
+            });
+        },
+
+        renderQuestionView:function(item){
+            var queInnerNextView = new appMains.views.QueInnerNextView({
+                model: item
+            });
+            this.$el.append(queInnerNextView.render().el);
+        }
+    });
+
 
 
 

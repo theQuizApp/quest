@@ -236,36 +236,35 @@
 <script id="submitAnsTempate" type="text/template">
 <form id="ansSubmitForm" role="form">
   <div class="form-group js-repeat col-sm-offset-2">
-       <h3><span>1</span> <%= question %> why</h3>
+       <h3><%= question %></h3>
      <div class="radio">
-        <label>
-          <%= optionA %>
-          <input type="radio" name="optionsAns" id="optionsRadios1" value="a" >
-          E
-        </label>
+      <label for="optionsRadios1">
+          <input type="radio" name="optionsAns" id="optionsRadios1" value="a" >          
+              <%= optionA %>
+           </label>
       </div>
       <div class="radio">
         <label>
           <input type="radio" name="optionsAns" id="optionsRadios2" value="b">
-         D
+         <%= optionB %>
         </label>
       </div>
       <div class="radio">
         <label>
           <input type="radio" name="optionsAns" id="optionsRadios3" value="c" >
-          C
+         <%= optionC %>
         </label>
       </div>
     <div class="radio">
         <label>
           <input type="radio" name="optionsAns" id="optionsRadios4" value="d" >
-        B
+       <%= optionD %>
         </label>
       </div>
     <div class="radio">
         <label>
           <input type="radio" name="optionsAns" id="optionsRadios5" value="e" >
-         A
+        <%= optionE %>
         </label>
       </div>
    
