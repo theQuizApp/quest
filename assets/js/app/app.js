@@ -30,7 +30,7 @@ appMains.db.transaction(
                             "optionD VARCHAR(50)," +
                             "optionE VARCHAR(50)," +
                             "time VARCHAR(50)," +
-                    "ans VARCHAR(50))";
+                            "ans VARCHAR(50))";
            
                 tx.executeSql(sql);
 
@@ -77,13 +77,8 @@ appMains.db.transaction(
                 var sql2 =
                     "CREATE TABLE IF NOT EXISTS quizAns ( " +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "secid VARCHAR(50)," +
-                    "section VARCHAR(50)," +
-                    "dificulty VARCHAR(50)," +
                     "ans VARCHAR(50)," +
-                    "time VARCHAR(50)," +
-                    "date VARCHAR(50)," +
-                    "number VARCHAR(50))";
+                    "time VARCHAR(50))";
 
                 tx.executeSql(sql2);
 
@@ -183,21 +178,17 @@ findById: function(id, callback) {
             }
         );
   },
-  saveQuizAns: function(insertQuizAns,callback) {
+  insertQuizAns: function(insertQuizAns,callback) {
 
       appMains.db.transaction(
             function(tx) {
 
-            var v1 = insertQuiz.get('secid');
-            var v2 = insertQuiz.get('section');
-            var v3 = insertQuiz.get('dificulty');
-            var v4 = insertQuiz.get('time');
-            var v5 = insertQuiz.get('ans');
-            var v5 = insertQuiz.get('date');
-            var v6 = insertQuiz.get('number');
-
-            var sq2 ='INSERT INTO quiz (secid,section,dificulty,number,ans,date,time) VALUES ("'+ v1 +'","'+ v2 +'","'+ v3 +'","'+ v4 +'","'+ v5 +'","'+ v6 +'");';
-              console.log('Creating quiz table');
+    
+            var v1 = insertQuizAns.get('ans');
+            var v2 = insertQuizAns.get('time');
+           
+            var sq2 ='INSERT INTO quizAns (ans,time) VALUES ("'+ v1 +'","'+ v2 +'");';
+              console.log('Creating quiz ans table');
               tx.executeSql(sq2);
             },
             function addedRow(tx, error) {
@@ -239,8 +230,8 @@ Backbone.sync = function(method, model, options) {
                 options.success(data);
             });
         }
-         if (options.dbOperation=='saveQuizAns') {
-            dao.saveQuizAns(model, function(data) {
+         if (options.dbOperation=='insertQuizAns') {
+            dao.insertQuizAns(model, function(data) {
                 options.success(data);
             });
         }
@@ -261,6 +252,14 @@ appMains.models.Submitquiz = Backbone.Model.extend({
         }
    
 });
+
+appMains.models.SaveQuizAns = Backbone.Model.extend({
+  dao: appMains.dao.QuestDAO,
+        initialize: function() {
+            console.log('save')
+        }
+   
+});
 //model end//
 
 //collection start//
@@ -271,7 +270,7 @@ appMains.collection.Submitquiz = Backbone.Collection.extend({
           for(var i =0; i<=module.length-1;i++)
           {
              console.log(module[i]);
-              submitquiz = new appMains.models.Submitquiz(); 
+              var submitquiz = new appMains.models.Submitquiz(); 
               submitquiz.save(module[i],{dbOperation:'insertQuiz',success:function(data){
                  
                 }});
@@ -279,6 +278,23 @@ appMains.collection.Submitquiz = Backbone.Collection.extend({
           }
   }
 });
+
+appMains.collection.SaveQuizAns = Backbone.Collection.extend({
+  model: appMains.models.SaveQuizAns,
+  save: function(module){
+      
+          for(var i =0; i<=module.length-1;i++)
+          {
+             console.log(module[i]);
+              var saveQuizAns = new appMains.models.SaveQuizAns(); 
+              saveQuizAns.save(module[i],{dbOperation:'insertQuizAns',success:function(data){
+                 alert('successfully saved');
+                }});
+
+          }
+  }
+});
+
 //collection end//
 
 //views start here//
@@ -325,25 +341,7 @@ appMains.views.SubmitQuizRow = Backbone.View.extend({
         }
       });
 
-appMains.views.SubmitAns = Backbone.View.extend({
-        render: function(){
-        var template = _.template( $("#submitAnsTempate").html(), {} );
-            this.$el.html( template );
-        },
-        events: {
-            'click #submitAns': 'nextQuestion',
-        },
-        nextQuestion: function(){
-            
-            $.APP.stopTimer();
-        //    var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
-          //   submitAns.render();  
-console.log(this);
-              $('.questionView').hide();
 
-             $.APP.startTimer('sw');
-        }
-      });
 
 
 
@@ -495,7 +493,8 @@ var questionCollection = [
 ];
 
 
-var i = 1;
+var i = 0;
+var sarr = [];
 
 appMains.views.QueInnerNextView = Backbone.View.extend({
         tagName:"section",
@@ -503,58 +502,74 @@ appMains.views.QueInnerNextView = Backbone.View.extend({
         template:$("#submitAnsTempate").html(),
        events: {
             'click #submitAns': 'nextQuestion',
+            'click #submitColl': 'nextQuestion',
         },
         render:function () {
             var tmpl = _.template(this.template); 
             this.$el.html(tmpl(this.model.toJSON())); 
             return this;
         },
-        nextQuestion:function(){
+        nextQuestion:function(ev){
+           //  $.APP.stopTimer('sw');
+             //  $.APP.startTimer('sw');
               
               var that = new appMains.views.QueOuterView();
                this.collection = new appMains.models.QuestionCollection(questionCollection);
 
                
-
-               if(i<=this.collection.models.length-1)
+               if(i<this.collection.models.length)
                {
-                 that.renderQuestionView(this.collection.models[i]);
 
-                // that.save(this.collection.models[i],{dbOperation:'saveQuizAns',success:function(data){
+
+
+                  var saveAnsM = {
+                            ans: this.$el.find('input:radio[name=optionsAns]:checked').val(),
+                            time: this.$el.find('#sw_h').text()+':'+this.$el.find('#sw_m').text()+':'+this.$el.find('#sw_s').text()+':'+this.$el.find('#sw_ms').text()
+
+                        }
+                  sarr.push(saveAnsM);
+
+                  that.renderQuestionView(this.collection.models[i]);
                  
-               // }});
+                  i = i+1;
+  
+               }
+               else
+               {
+                  this.submitColletion(sarr);
+                $('#submitColl').removeClass('hidden');
+                 $('#submitAns').addClass('hidden');
+                  //$.APP.stopTimer('sw');
+              
+               }
 
-                 
-               } i = i+1;
+           },
+           submitColletion:function(item){
+        
+                var collectionList = new appMains.collection.SaveQuizAns();
+                collectionList.save(item);
+        
 
-       //   $('.questionView').hide()
-         // $(this.el.nextSibling).show();
-        }
+           }
     });
 
 appMains.views.QueOuterView = Backbone.View.extend({
         el:$("#container-area"),
-     
+
         initialize:function(){
             this.collection = new appMains.models.QuestionCollection(questionCollection);
             this.render();
         },
-
         render: function(){
             var that = this;
                that.renderQuestionView(this.collection.models[0]);
-
-         /*   _.each(this.collection.models, function(item){
-                that.renderQuestionView(item);
-            }); */
         },
-
         renderQuestionView:function(item){
             var queInnerNextView = new appMains.views.QueInnerNextView({
                 model: item
             });
             this.$el.html(queInnerNextView.render().el);
-        }
+          }
     });
 
 
@@ -567,6 +582,6 @@ appMains.views.QueOuterView = Backbone.View.extend({
     questDAO.createTableQuiz();  
     questDAO.insertQuiz();
     questDAO.createTableAns();  
-    questDAO.insertAns();
+    questDAO.insertQuizAns();
 
 })(jQuery);

@@ -269,19 +269,21 @@
       </div>
    
   <div class="form-group">
-    <div id="time" class=" col-sm-offset-5 col-sm-2" > 
+    <div id="time" class="ui-timer col-sm-offset-5 col-sm-2" > 
         <span id="sw_h">00</span>:
         <span id="sw_m">00</span>:
         <span id="sw_s">00</span>:
         <span id="sw_ms">00</span>
     </div> 
+
       <div class=" col-sm-1"> 
 
 <% if (typeof(question).length == question) { %>
      <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Submit QUiz</button>
 <% } %>
 
-          <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Next</button>
+          <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Next question</button>
+          <button type="button" id="submitColl" name="submitColl" class="btn hidden btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Submit quiz</button>
       </div>
       </div>
   </div>
@@ -301,8 +303,6 @@
     <script src="assets/js/lib/jquery.cleditor.min.js"></script>
     <script src="assets/js/lib/timer.js"></script>
 	  <script src="assets/js/app/app.js"></script>
-
-
     
   </body>
 </html>
