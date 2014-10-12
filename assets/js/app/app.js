@@ -37,10 +37,10 @@ appMains.db.transaction(
 
              
             },
-            function(tx, error) {
+            function error(tx, error) {
                 alert('Transaction error ' + error);
             },
-            function(tx) {
+            function success(tx) {
                 console.log(tx);
                // callback();
             }
@@ -61,10 +61,10 @@ appMains.db.transaction(
                 tx.executeSql(sql2);
 
             },
-            function(tx, error) {
+            function error(tx, error) {
                 alert('Transaction error ' + error);
             },
-            function(tx) {
+            function success(tx) {
                 console.log(tx);
                // callback();
             }
@@ -83,10 +83,10 @@ appMains.db.transaction(
                 tx.executeSql(sql2);
 
             },
-            function(tx, error) {
+            function success(tx, error) {
                 alert('Transaction error ' + error);
             },
-            function(tx) {
+            function error(tx) {
                 console.log(tx);
                // callback();
             }
@@ -112,10 +112,10 @@ appMains.db.transaction(
                 console.log('Creating question table');
                 tx.executeSql(sql);         
             },
-            function addedRow(tx, error) {
+            function success(tx, error) {
                 alert('Transaction error ' + error);
             },
-            function errorHandle(tx) {
+            function error(tx) {
                // alert('Transaction error ' + error);
                 callback();
             }
@@ -169,10 +169,10 @@ findById: function(id, callback) {
               console.log('Creating quiz table');
               tx.executeSql(sq2);
             },
-            function addedRow(tx, error) {
+            function success(tx, error) {
                 alert('Transaction error ' + error);
             },
-            function errorHandle(tx) {
+            function error(tx) {
                // alert('Transaction error ' + error);
                 callback();
             }
@@ -191,10 +191,10 @@ findById: function(id, callback) {
               console.log('Creating quiz ans table');
               tx.executeSql(sq2);
             },
-            function addedRow(tx, error) {
+            function success(tx, error) {
                 alert('Transaction error ' + error);
             },
-            function errorHandle(tx) {
+            function error(tx) {
                // alert('Transaction error ' + error);
                 callback();
             }
@@ -272,10 +272,12 @@ appMains.collection.Submitquiz = Backbone.Collection.extend({
              console.log(module[i]);
               var submitquiz = new appMains.models.Submitquiz(); 
               submitquiz.save(module[i],{dbOperation:'insertQuiz',success:function(data){
-                 
+                  alert('Quiz list Added successfully'+ data);
                 }});
 
           }
+
+
   }
 });
 
@@ -288,7 +290,7 @@ appMains.collection.SaveQuizAns = Backbone.Collection.extend({
              console.log(module[i]);
               var saveQuizAns = new appMains.models.SaveQuizAns(); 
               saveQuizAns.save(module[i],{dbOperation:'insertQuizAns',success:function(data){
-                 alert('successfully saved');
+                 alert('Ans successfully saved');
                 }});
 
           }
@@ -325,7 +327,7 @@ appMains.views.QuestionView = Backbone.View.extend({
             var question = new appMains.models.Question(); 
 
                 question.save(questionAns,{dbOperation:'insertQ',success:function(data){
-                    console.log(data);
+                    alert('Question Added'+ data);
                   }});
             
 
