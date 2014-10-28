@@ -38,7 +38,8 @@ appMains.db.transaction(
              
             },
             function error(tx, error) {
-                alert('Transaction error ' + error);
+                     $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             },
             function success(tx) {
                 console.log(tx);
@@ -62,7 +63,8 @@ appMains.db.transaction(
 
             },
             function error(tx, error) {
-                alert('Transaction error ' + error);
+                 $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             },
             function success(tx) {
                 console.log(tx);
@@ -84,7 +86,8 @@ appMains.db.transaction(
 
             },
             function success(tx, error) {
-                alert('Transaction error ' + error);
+                $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             },
             function error(tx) {
                 console.log(tx);
@@ -113,7 +116,8 @@ appMains.db.transaction(
                 tx.executeSql(sql);         
             },
             function success(tx, error) {
-                alert('Transaction error ' + error);
+                $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             },
             function error(tx) {
                // alert('Transaction error ' + error);
@@ -134,7 +138,8 @@ findById: function(id, callback) {
                 });
             },
             function(tx, error) {
-                alert("Transaction Error: " + error);
+                $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             }
         );
   },
@@ -151,7 +156,8 @@ findById: function(id, callback) {
                 });
             },
             function(tx, error) {
-                alert("Transaction Error: " + error);
+                 $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             }
         );
   },
@@ -170,7 +176,8 @@ findById: function(id, callback) {
               tx.executeSql(sq2);
             },
             function success(tx, error) {
-                alert('Transaction error ' + error);
+                $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             },
             function error(tx) {
                // alert('Transaction error ' + error);
@@ -192,7 +199,8 @@ findById: function(id, callback) {
               tx.executeSql(sq2);
             },
             function success(tx, error) {
-                alert('Transaction error ' + error);
+                $('.modal-body').html('ERROR ' +error);
+                      $('#myModal').modal('show');
             },
             function error(tx) {
                // alert('Transaction error ' + error);
@@ -245,6 +253,13 @@ appMains.models.Question = Backbone.Model.extend({
         }
 });
 
+appMains.models.Quiz = Backbone.Model.extend({
+    dao: appMains.dao.QuestDAO,
+        initialize: function() {
+            console.log('hi')
+        }
+});
+
 appMains.models.Submitquiz = Backbone.Model.extend({
   dao: appMains.dao.QuestDAO,
         initialize: function() {
@@ -272,7 +287,9 @@ appMains.collection.Submitquiz = Backbone.Collection.extend({
              console.log(module[i]);
               var submitquiz = new appMains.models.Submitquiz(); 
               submitquiz.save(module[i],{dbOperation:'insertQuiz',success:function(data){
-                  alert('Quiz list Added successfully'+ data);
+                //  alert('Quiz list Added successfully'+ data);
+                   $('.modal-body').html('Quiz list Added successfully ' +data);
+                      $('#myModal').modal('show');
                 }});
 
           }
@@ -290,12 +307,17 @@ appMains.collection.SaveQuizAns = Backbone.Collection.extend({
              console.log(module[i]);
               var saveQuizAns = new appMains.models.SaveQuizAns(); 
               saveQuizAns.save(module[i],{dbOperation:'insertQuizAns',success:function(data){
-                 alert('Ans successfully saved');
+                // alert('Ans successfully saved');
+                  $('.modal-body').html('Ans successfully saved ' +data);
+                      $('#myModal').modal('show');
+
                 }});
 
           }
   }
 });
+
+appMains.collection.ShowQuizQuestion = Backbone.Collection.extend();
 
 //collection end//
 
@@ -327,7 +349,11 @@ appMains.views.QuestionView = Backbone.View.extend({
             var question = new appMains.models.Question(); 
 
                 question.save(questionAns,{dbOperation:'insertQ',success:function(data){
-                    alert('Question Added'+ data);
+                   // alert('Question Added'+ data);
+
+                     $('.modal-body').html('Question Added ' +data);
+                      $('#myModal').modal('show');
+
                   }});
             
 
@@ -345,9 +371,48 @@ appMains.views.SubmitQuizRow = Backbone.View.extend({
 
 
 
+var iq = 0;
 
+ var questionCollection = [
+  {
+      question: '1 Why this ?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  },
+  {
+      question: '2 What is this ?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  },
+  {
+      question: '3 how?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  },
+  {
+      question: '4 When ?',
+      optionA:'a',
+      optionB:'b',
+      optionC:'c',
+      optionD:'d',
+      optionE:'e'
+  }
+];
 
 appMains.views.Submitquiz = Backbone.View.extend({
+        tagName:"section",
+        className:"questionView clearfix",
+         template:$("#submitAnsTempate").html(),
+        collection: new appMains.collection.ShowQuizQuestion(questionCollection),
         render: function(){
         var template = _.template( $("#submitQuiz").html(), {} );
             this.$el.html( template );
@@ -355,11 +420,12 @@ appMains.views.Submitquiz = Backbone.View.extend({
         events: {
             'click #submitQuizbtn': 'submitQuiz',
             'click #add':'addRowquiz',
-            'click #remove':'removeRowquiz'
-        },
+            'click #remove':'removeRowquiz',
+            'click #submitAns': 'initQuiz'
+       },
         submitQuiz: function(ev){
              ev.preventDefault();
-           
+           var that=this;
             var modelsarray = [];
 
              if(typeof(Storage) !== "undefined") {
@@ -377,23 +443,45 @@ appMains.views.Submitquiz = Backbone.View.extend({
                         dificulty:  $(this).find('select[name=quiz-dificulty]').find('option:selected').val(),
                         number:  $(this).find('input[name=number]').val()
                   };
-                  modelsarray.push(a);
+         
+                  modelsarray.push(new appMains.models.Quiz(a));
             });
+      
+                  modelsarray.forEach(function(model){
+                     model.save(model,{dbOperation:'insertQuiz',success:function(data){
+                     // that.initQuiz();
 
-            var collectionList = new appMains.collection.Submitquiz();
-                collectionList.save(modelsarray);
+                     }});
+                 });
+
+                   that.initQuiz();
+
           } 
-
-          // var submitAns = new appMains.views.SubmitAns({ el: $("#question-area") });
-          //     submitAns.render();  
-
-           var questionInner = new appMains.views.QueOuterView();
-          $('.questionView').hide();
-          $('.questionView:first').show();
-               $.APP.startTimer('sw');
-                
-              return false;
+          
         },
+      initQuiz: function(e){
+        var tmpl = _.template(this.template); 
+
+        var that = this;
+           if(iq<that.collection.models.length)
+               {  
+              
+                 this.$el.html(tmpl(that.collection.models[iq].attributes)); 
+                   iq = iq + 1;
+                 console.log('sss'+ iq);
+
+               }
+               else
+               {
+                $('#submitAns').addClass('hidden');
+                $('#submitAnsSubmit').removeClass('hidden');
+               }
+           
+          
+        
+            return this;
+
+      },
         addRowquiz: function(ev){
              ev.preventDefault();
              var submitQuizRow = new appMains.views.SubmitQuizRow({ el: $("#js-repeat-row") });
@@ -445,134 +533,11 @@ appMains.views.Submitquiz = Backbone.View.extend({
     Backbone.history.start();
     window.appMains=appMains;
    
-//var question = new appMains.models.Question({id:1});
-//question.fetch({dbOperation:'findID',success:function(data){console.log(data)}});
-//question.toJSON();
-
-
-//model
-appMains.models.QuestionShow = Backbone.Model.extend();
-//collection
-appMains.models.QuestionCollection = Backbone.Collection.extend({
-  model:appMains.models.QuestionShow
-});
 
 
 
-var questionCollection = [
-  {
-      question: '1 Why this ?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  },
-  {
-      question: '2 What is this ?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  },
-  {
-      question: '3 how?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  },
-  {
-      question: '4 When ?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  }
-];
 
 
-var i = 0;
-var sarr = [];
-
-appMains.views.QueInnerNextView = Backbone.View.extend({
-        tagName:"section",
-        className:"questionView clearfix",
-        template:$("#submitAnsTempate").html(),
-       events: {
-            'click #submitAns': 'nextQuestion',
-            'click #submitColl': 'nextQuestion',
-        },
-        render:function () {
-            var tmpl = _.template(this.template); 
-            this.$el.html(tmpl(this.model.toJSON())); 
-            return this;
-        },
-        nextQuestion:function(ev){
-           //  $.APP.stopTimer('sw');
-             //  $.APP.startTimer('sw');
-              
-              var that = new appMains.views.QueOuterView();
-               this.collection = new appMains.models.QuestionCollection(questionCollection);
-
-               
-               if(i<this.collection.models.length)
-               {
-
-
-
-                  var saveAnsM = {
-                            ans: this.$el.find('input:radio[name=optionsAns]:checked').val(),
-                            time: this.$el.find('#sw_h').text()+':'+this.$el.find('#sw_m').text()+':'+this.$el.find('#sw_s').text()+':'+this.$el.find('#sw_ms').text()
-
-                        }
-                  sarr.push(saveAnsM);
-
-                  that.renderQuestionView(this.collection.models[i]);
-                 
-                  i = i+1;
-  
-               }
-               else
-               {
-                  this.submitColletion(sarr);
-                $('#submitColl').removeClass('hidden');
-                 $('#submitAns').addClass('hidden');
-                  //$.APP.stopTimer('sw');
-              
-               }
-
-           },
-           submitColletion:function(item){
-        
-                var collectionList = new appMains.collection.SaveQuizAns();
-                collectionList.save(item);
-        
-
-           }
-    });
-
-appMains.views.QueOuterView = Backbone.View.extend({
-        el:$("#container-area"),
-
-        initialize:function(){
-            this.collection = new appMains.models.QuestionCollection(questionCollection);
-            this.render();
-        },
-        render: function(){
-            var that = this;
-               that.renderQuestionView(this.collection.models[0]);
-        },
-        renderQuestionView:function(item){
-            var queInnerNextView = new appMains.views.QueInnerNextView({
-                model: item
-            });
-            this.$el.html(queInnerNextView.render().el);
-          }
-    });
 
 
 

@@ -47,11 +47,11 @@
 
 
 <script id="questionForm" type="text/template">
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" data-toggle="validator" role="form">
   <div class="form-group">
     <label for="sel-quant" class="col-sm-2 control-label">Section</label>
     <div class="col-sm-2">
-      <select name="sel-quant" id="sel-quant" class="form-control">
+      <select name="sel-quant" id="sel-quant" required class="form-control">
         <optgroup label="Quant">
           <option value="ds" >ds</option>
           <option value="ps" >ps</option>
@@ -65,7 +65,7 @@
     </div>
     <label for="sel-dificulty" class="col-sm-2 control-label">Dificulty</label>
     <div class="col-sm-2">
-      <select name="sel-dificulty" id="sel-dificulty" class="form-control">
+      <select name="sel-dificulty" id="sel-dificulty" required class="form-control">
         <option value="high" >high</option>
         <option value="medium" >medium</option>
         <option value="easy" >easy</option>
@@ -76,7 +76,7 @@
   <div class="form-group">
     <label for="question" class="col-sm-2 control-label">Question</label>
     <div class="col-sm-7">
-    <textarea cols="80" class="form-control" id="question" name="question"  rows="10">as</textarea>
+    <textarea cols="80" class="form-control" required id="question" name="question"  rows="10">as</textarea>
     
     </div>
   </div>
@@ -88,10 +88,10 @@
 <div class="col-lg-7">
     <div class="input-group">
       <span class="input-group-addon">
-         A <input type="radio" name="opt-ans" checked id="opt-ans-a" value="a"  />
+         A <input type="radio" name="opt-ans" required checked id="opt-ans-a" value="a"  />
       </span>
       
-       <textarea class="form-control" name="opt-a" id="opt-a" ></textarea>
+       <textarea class="form-control" name="opt-a" required id="opt-a" ></textarea>
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
 </div>
@@ -99,10 +99,10 @@
   <div class="col-lg-7 col-sm-offset-2">
     <div class="input-group">
       <span class="input-group-addon">
-         B <input type="radio" name="opt-ans" id="opt-ans-b" value="b"  />
+         B <input type="radio" name="opt-ans"  required id="opt-ans-b" value="b"  />
       </span>
       
-       <textarea class="form-control" name="opt-b" id="opt-b" ></textarea>
+       <textarea class="form-control" name="opt-b" required id="opt-b" ></textarea>
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
 </div>
@@ -110,10 +110,10 @@
   <div class="col-lg-7 col-sm-offset-2">
     <div class="input-group">
       <span class="input-group-addon">
-         C <input type="radio" name="opt-ans" id="opt-ans-c" value="c"  />
+         C <input type="radio" name="opt-ans" required id="opt-ans-c" value="c"  />
       </span>
       
-       <textarea class="form-control" name="opt-c" id="opt-c" ></textarea>
+       <textarea class="form-control" name="opt-c" required id="opt-c" ></textarea>
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
 </div>
@@ -121,10 +121,10 @@
   <div class="col-lg-7 col-sm-offset-2">
     <div class="input-group">
       <span class="input-group-addon">
-         D <input type="radio" name="opt-ans" id="opt-ans-d" value="d"  />
+         D <input type="radio" name="opt-ans" id="opt-ans-d" required value="d"  />
       </span>
       
-       <textarea class="form-control" name="opt-d" id="opt-d" ></textarea>
+       <textarea class="form-control" name="opt-d" required id="opt-d" ></textarea>
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
 </div>
@@ -132,10 +132,10 @@
   <div class="col-lg-7 col-sm-offset-2">
     <div class="input-group">
       <span class="input-group-addon">
-         E <input type="radio" name="opt-ans" id="opt-ans-e" value="e"  />
+         E <input type="radio" name="opt-ans" id="opt-ans-e" required value="e"  />
       </span>
       
-       <textarea class="form-control" name="opt-e" id="opt-e" ></textarea>
+       <textarea class="form-control" name="opt-e" required id="opt-e" ></textarea>
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
 </div>
@@ -154,7 +154,7 @@
 
 <script id="submitQuiz" type="text/template">
 <div id="question-area">
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" data-toggle="validator" role="form">
     <div id="js-repeat-row">
       <div class="form-group js-repeat">      
             <label for="quiz-quant" class="col-sm-2 control-label">Section</label>
@@ -234,8 +234,11 @@
 
 
 <script id="submitAnsTempate" type="text/template">
-<form id="ansSubmitForm" role="form">
+
+<form id="ansSubmitForm" data-toggle="validator" role="form">
   <div class="form-group js-repeat col-sm-offset-2">
+  <div class="msg-box success"></div>
+  <div class="msg-box error"></div>
        <h3><%= question %></h3>
      <div class="radio">
       <label for="optionsRadios1">
@@ -278,12 +281,12 @@
 
       <div class=" col-sm-1"> 
 
-<% if (typeof(question).length == question) { %>
-     <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Submit QUiz</button>
-<% } %>
+      
+        <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Next question</button>
+<button type="button" id="submitAnsSubmit" name="submitAnsSubmit" class="btn btn-primary hidden"><span class="glyphicon glyphicon-chevron-right"></span> Submit QUiz</button> 
+     
 
-          <button type="button" id="submitAns" name="submitAns" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Next question</button>
-          <button type="button" id="submitColl" name="submitColl" class="btn hidden btn-primary"><span class="glyphicon glyphicon-chevron-right"></span> Submit quiz</button>
+
       </div>
       </div>
   </div>
@@ -291,18 +294,39 @@
 </script>
 
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Massage</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->    
     <script src="assets/js/lib/jquery-1.7.1.js"></script>
-
     <script src="assets/js/lib/bootstrap.min.js"></script>
     <script src="assets/js/lib/underscore.js"></script>
     <script src="assets/js/lib/backbone.js"></script>
     <script src="assets/js/lib/jquery.cleditor.min.js"></script>
     <script src="assets/js/lib/timer.js"></script>
+    <script src="assets/js/lib/validator.js"></script>    
+    <script src="assets/js/lib/validator.min.js"></script>
+    
 	  <script src="assets/js/app/app.js"></script>
+
     
   </body>
 </html>

@@ -1,5 +1,12 @@
-appMains.models.QuestionShow = Backbone.Model.extend();
-
+var appMains = {
+                models: {},
+                views: {},
+                collection: {},
+                router: {},
+                utils: {},
+                dao: {}
+              };
+              
 appMains.models.Question = Backbone.Model.extend({
     dao: appMains.dao.QuestDAO,
         initialize: function() {
@@ -7,10 +14,14 @@ appMains.models.Question = Backbone.Model.extend({
         }
 });
 
-appMains.models.Submitquiz = Backbone.Model.extend({
+
+
+appMains.models.SaveQuizAns = Backbone.Model.extend({
   dao: appMains.dao.QuestDAO,
         initialize: function() {
-            console.log('bye')
+            console.log('save')
         }
    
 });
+
+appMains.models.QuestionShow = Backbone.Model.extend();

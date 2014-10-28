@@ -1,44 +1,35 @@
-appMains.models.QuestionShow = Backbone.Model.extend();
-
-appMains.models.Question = Backbone.Model.extend({
-    dao: appMains.dao.QuestDAO,
-        initialize: function() {
-            console.log('hi')
-        }
-});
-
-appMains.models.Submitquiz = Backbone.Model.extend({
-  dao: appMains.dao.QuestDAO,
-        initialize: function() {
-            console.log('bye')
-        }
-   
-});
+var appMains = {
+                models: {},
+                views: {},
+                collection: {},
+                router: {},
+                utils: {},
+                dao: {}
+              };
 
 
-
-
-appMains.collection.Submitquiz = Backbone.Collection.extend({
-  model: appMains.models.Submitquiz,
+appMains.collection.SaveQuizAns = Backbone.Collection.extend({
+  model: appMains.models.SaveQuizAns,
   save: function(module){
       
-          for(var i =0; i<=module.length-1;i++)
-          {
-             console.log(module[i]);
-              submitquiz = new appMains.models.Submitquiz(); 
-              submitquiz.save(module[i],{dbOperation:'insertQuiz',success:function(data){
-                 
+         
+        _.each(module, function(i) {
+          var saveQuizAns = new appMains.models.SaveQuizAns(); 
+              saveQuizAns.save(i,{dbOperation:'insertQuizAns',success:function(data){
+                   $('.modal-body').html('Ans successfully saved');
+                   $('#myModal').modal('show');
                 }});
+        });
 
-          }
+
+      
   }
 });
+
 
 appMains.models.QuestionCollection = Backbone.Collection.extend({
   model:appMains.models.QuestionShow
 });
-
-
 
 
 var questionCollection = [
