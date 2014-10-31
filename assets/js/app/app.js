@@ -442,8 +442,7 @@ appMains.views.QuestionView = Backbone.View.extend({
         var tmpl = _.template(this.template); 
 
         var that = this;
-           if(iq<that.collection.models.length){  
-              
+           if(iq<that.collection.models.length){                
                  this.$el.html(tmpl(that.collection.models[iq].attributes)); 
                    iq = iq + 1;
             }
@@ -455,18 +454,16 @@ appMains.views.QuestionView = Backbone.View.extend({
               }
 
 			var questionAnsSubmited = {
-                  time: '10',
-                  ans: $('input:radio[name=optionsAns]:checked').val()
+				ans: this.$el.find('input:radio[name=optionsAns]:checked').val(),
+                  time: '10'
+                 
               };
-
-				var questionAnsSub = new appMains.models.SaveQuizAns();
-
-                questionAnsSub.save(questionAnsSubmited,{dbOperation:'insertQuizAns',success:function(data){
-              
-                     $('.modal-body').html('Answer save next' +data);
-                      $('#myModal').modal('show');
-
-                  }});
+			  
+			var questionAnsSub = new appMains.models.SaveQuizAns();
+				questionAnsSub.save(questionAnsSubmited,{dbOperation:'insertQuizAns',success:function(data){              
+					 $('.modal-body').html('Answer save next' +data);
+					  $('#myModal').modal('show');
+				  }});
         
             return this;
 
