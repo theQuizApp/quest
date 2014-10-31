@@ -14,207 +14,203 @@ appMains.dao.QuestDAO = function(db) {
 };
 
 
-_.extend(appMains.dao.QuestDAO.prototype, {
-createTable:function(questionModel,callback){
-appMains.db.transaction(
-            function(tx) {
-                var sql =
-                    "CREATE TABLE IF NOT EXISTS question ( " +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "section VARCHAR(50)," +
-                    "dificulty VARCHAR(50)," +
-                    "question VARCHAR(50)," +
-                            "optionA VARCHAR(50)," +
-                            "optionB VARCHAR(50)," +
-                            "optionC VARCHAR(50)," +
-                            "optionD VARCHAR(50)," +
-                            "optionE VARCHAR(50)," +
-                            "time VARCHAR(50)," +
-                            "ans VARCHAR(50))";
-           
-                tx.executeSql(sql);
+	_.extend(appMains.dao.QuestDAO.prototype, {
 
+		createTable:function(questionModel,callback){
+				appMains.db.transaction(
+					function(tx) {
+						var sql =
+							"CREATE TABLE IF NOT EXISTS question ( " +
+							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+							"section VARCHAR(50)," +
+							"dificulty VARCHAR(50)," +
+							"question VARCHAR(50)," +
+									"optionA VARCHAR(50)," +
+									"optionB VARCHAR(50)," +
+									"optionC VARCHAR(50)," +
+									"optionD VARCHAR(50)," +
+									"optionE VARCHAR(50)," +
+									"time VARCHAR(50)," +
+									"ans VARCHAR(50))";
+				   
+						tx.executeSql(sql);					 
+					},
+					function error(tx, error) {
+							 $('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					},
+					function success(tx) {
+						console.log(tx);
+					   // callback();
+					}
+				);
+		},
+		createTableQuiz:function(quizModel,callback){
+				appMains.db.transaction(
+					function(tx) {
+						
+						var sql2 =
+							"CREATE TABLE IF NOT EXISTS quiz ( " +
+							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+							"secid VARCHAR(50)," +
+							"section VARCHAR(50)," +
+							"dificulty VARCHAR(50)," +
+							"number VARCHAR(50))";
 
-             
-            },
-            function error(tx, error) {
-                     $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            },
-            function success(tx) {
-                console.log(tx);
-               // callback();
-            }
-        );
-},
-createTableQuiz:function(quizModel,callback){
-appMains.db.transaction(
-            function(tx) {
-                
-                var sql2 =
-                    "CREATE TABLE IF NOT EXISTS quiz ( " +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "secid VARCHAR(50)," +
-                    "section VARCHAR(50)," +
-                    "dificulty VARCHAR(50)," +
-                    "number VARCHAR(50))";
+						tx.executeSql(sql2);
 
-                tx.executeSql(sql2);
+					},
+					function error(tx, error) {
+						 $('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					},
+					function success(tx) {
+						console.log(tx);
+					   // callback();
+					}
+				);
+		},
+		createTableAns:function(quizModel,callback){
+				appMains.db.transaction(
+					function(tx) {
+						
+						var sql2 =
+							"CREATE TABLE IF NOT EXISTS quizAns ( " +
+							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+							"ans VARCHAR(50)," +
+							"time VARCHAR(50))";
 
-            },
-            function error(tx, error) {
-                 $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            },
-            function success(tx) {
-                console.log(tx);
-               // callback();
-            }
-        );
-},
-createTableAns:function(quizModel,callback){
-appMains.db.transaction(
-            function(tx) {
-                
-                var sql2 =
-                    "CREATE TABLE IF NOT EXISTS quizAns ( " +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "ans VARCHAR(50)," +
-                    "time VARCHAR(50))";
+						tx.executeSql(sql2);
 
-                tx.executeSql(sql2);
+					},
+					function success(tx, error) {
+						$('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					},
+					function error(tx) {
+						console.log(tx);
+					   // callback();
+					}
+				);
+		},
+		insert:function(questionModel,callback){
+		  //  alert("aaa"+questionModel.get('quant'));
+				appMains.db.transaction(
+					function(tx) {
 
-            },
-            function success(tx, error) {
-                $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            },
-            function error(tx) {
-                console.log(tx);
-               // callback();
-            }
-        );
-},
-insert:function(questionModel,callback){
-  //  alert("aaa"+questionModel.get('quant'));
-appMains.db.transaction(
-            function(tx) {
+					var v1 = questionModel.get('section');
+					var v2 = questionModel.get('dificulty');
+					var v3 = questionModel.get('question');
+					var v4 = questionModel.get('optionA');
+					var v5 = questionModel.get('optionB');
+					var v6 = questionModel.get('optionC');
+					var v7 = questionModel.get('optionD');
+					var v8 = questionModel.get('optionE');
+					var v9 = questionModel.get('time');
+					var v10 = questionModel.get('ans');
 
-            var v1 = questionModel.get('section');
-            var v2 = questionModel.get('dificulty');
-            var v3 = questionModel.get('question');
-            var v4 = questionModel.get('optionA');
-            var v5 = questionModel.get('optionB');
-            var v6 = questionModel.get('optionC');
-            var v7 = questionModel.get('optionD');
-            var v8 = questionModel.get('optionE');
-            var v9 = questionModel.get('time');
-            var v10 = questionModel.get('ans');
+					 var sql ='INSERT INTO question (section,dificulty,question,optionA,optionB,optionC,optionD,optionE,time,ans) VALUES ("'+ v1 +'","'+ v2 +'","'+ v3 +'","'+ v4 +'","'+ v5 +'","'+ v6 +'","'+ v7 +'","'+ v8 +'","'+ v9 +'","'+ v10 +'");';
+						console.log('Creating question table');
+						tx.executeSql(sql);         
+					},
+					function success(tx, error) {
+						$('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					},
+					function error(tx) {
+					   // alert('Transaction error ' + error);
+						callback();
+					}
+				);
+		},
+		findById: function(id, callback) {
+				this.db.transaction(
+					function(tx) {
 
-             var sql ='INSERT INTO question (section,dificulty,question,optionA,optionB,optionC,optionD,optionE,time,ans) VALUES ("'+ v1 +'","'+ v2 +'","'+ v3 +'","'+ v4 +'","'+ v5 +'","'+ v6 +'","'+ v7 +'","'+ v8 +'","'+ v9 +'","'+ v10 +'");';
-                console.log('Creating question table');
-                tx.executeSql(sql);         
-            },
-            function success(tx, error) {
-                $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            },
-            function error(tx) {
-               // alert('Transaction error ' + error);
-                callback();
-            }
-        );
-},
-findById: function(id, callback) {
-        this.db.transaction(
-            function(tx) {
+						var sql = "SELECT * " +
+							"FROM question q " +
+							"WHERE q.id=:id";
+						console.log(sql)
+						tx.executeSql(sql, [id], function(tx, results) {
+							callback(results.rows.length === 1 ? results.rows.item(0) : null);
+						});
+					},
+					function(tx, error) {
+						$('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					}
+				);
+		},
+		findByIdQuiz: function(id, callback) {
+				this.db.transaction(
+					function(tx) {
 
-                var sql = "SELECT * " +
-                    "FROM question q " +
-                    "WHERE q.id=:id";
-                console.log(sql)
-                tx.executeSql(sql, [id], function(tx, results) {
-                    callback(results.rows.length === 1 ? results.rows.item(0) : null);
-                });
-            },
-            function(tx, error) {
-                $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            }
-        );
-  },
-  findByIdQuiz: function(id, callback) {
-        this.db.transaction(
-            function(tx) {
+						var sql = "SELECT * " +
+							"FROM quiz q " +
+							"WHERE q.id=:id";
+						console.log(sql)
+						tx.executeSql(sql, [id], function(tx, results) {
+							callback(results.rows.length === 1 ? results.rows.item(0) : null);
+						});
+					},
+					function(tx, error) {
+						 $('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					}
+				);
+		},
+		insertQuiz: function(insertQuiz,callback) {
 
-                var sql = "SELECT * " +
-                    "FROM quiz q " +
-                    "WHERE q.id=:id";
-                console.log(sql)
-                tx.executeSql(sql, [id], function(tx, results) {
-                    callback(results.rows.length === 1 ? results.rows.item(0) : null);
-                });
-            },
-            function(tx, error) {
-                 $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            }
-        );
-  },
-  insertQuiz: function(insertQuiz,callback) {
+			  appMains.db.transaction(
+					function(tx) {
 
-      appMains.db.transaction(
-            function(tx) {
+					var v1 = insertQuiz.get('secid');
+					var v2 = insertQuiz.get('section');
+					var v3 = insertQuiz.get('dificulty');
+					var v4 = insertQuiz.get('number');
 
-            var v1 = insertQuiz.get('secid');
-            var v2 = insertQuiz.get('section');
-            var v3 = insertQuiz.get('dificulty');
-            var v4 = insertQuiz.get('number');
+					var sq2 ='INSERT INTO quiz (secid,section,dificulty,number) VALUES ("'+ v1 +'","'+ v2 +'","'+ v3 +'","'+ v4 +'");';
+					  console.log('Creating quiz table');
+					  tx.executeSql(sq2);
+					},
+					function success(tx, error) {
+						$('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					},
+					function error(tx) {
+					   // alert('Transaction error ' + error);
+						callback();
+					}
+				);
+		},
+		insertQuizAns: function(insertQuizAns,callback) {
 
-            var sq2 ='INSERT INTO quiz (secid,section,dificulty,number) VALUES ("'+ v1 +'","'+ v2 +'","'+ v3 +'","'+ v4 +'");';
-              console.log('Creating quiz table');
-              tx.executeSql(sq2);
-            },
-            function success(tx, error) {
-                $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            },
-            function error(tx) {
-               // alert('Transaction error ' + error);
-                callback();
-            }
-        );
-  },
-  insertQuizAns: function(insertQuizAns,callback) {
+				appMains.db.transaction(
+					function(tx) {
 
-      appMains.db.transaction(
-            function(tx) {
+			
+					var v1 = insertQuizAns.get('ans');
+					var v2 = insertQuizAns.get('time');
+				   
+					var sq2 ='INSERT INTO quizAns (ans,time) VALUES ("'+ v1 +'","'+ v2 +'");';
+					  console.log('Creating quiz ans table');
+					  tx.executeSql(sq2);
+					},
+					function success(tx, error) {
+						$('.modal-body').html('ERROR ' +error);
+							  $('#myModal').modal('show');
+					},
+					function error(tx) {
+					   // alert('Transaction error ' + error);
+						callback();
+					}
+				);
+		}
+	});
 
-    
-            var v1 = insertQuizAns.get('ans');
-            var v2 = insertQuizAns.get('time');
-           
-            var sq2 ='INSERT INTO quizAns (ans,time) VALUES ("'+ v1 +'","'+ v2 +'");';
-              console.log('Creating quiz ans table');
-              tx.executeSql(sq2);
-            },
-            function success(tx, error) {
-                $('.modal-body').html('ERROR ' +error);
-                      $('#myModal').modal('show');
-            },
-            function error(tx) {
-               // alert('Transaction error ' + error);
-                callback();
-            }
-        );
-  }
+	Backbone.sync = function(method, model, options) {
 
-});
-
-Backbone.sync = function(method, model, options) {
-
-//JSON.stringify(model);
-    var dao = new model.dao(appMains.db);
+		var dao = new model.dao(appMains.db);
 
         if (options.dbOperation=='findID') {
             dao.findById(model.id, function(data) {
@@ -244,80 +240,72 @@ Backbone.sync = function(method, model, options) {
             });
         }
 
-};
+	};
+	
 ///model start//
-appMains.models.Question = Backbone.Model.extend({
-    dao: appMains.dao.QuestDAO,
-        initialize: function() {
-            console.log('hi')
-        }
-});
+	appMains.models.Question = Backbone.Model.extend({
+		dao: appMains.dao.QuestDAO,
+			initialize: function() {
+				console.log('hi')
+			}
+	});
 
-appMains.models.Quiz = Backbone.Model.extend({
-    dao: appMains.dao.QuestDAO,
-        initialize: function() {
-            console.log('hi')
-        }
-});
+	appMains.models.Quiz = Backbone.Model.extend({
+		dao: appMains.dao.QuestDAO,
+			initialize: function() {
+				console.log('hi')
+			}
+	});
 
-appMains.models.Submitquiz = Backbone.Model.extend({
-  dao: appMains.dao.QuestDAO,
-        initialize: function() {
-            console.log('bye')
-        }
-   
-});
+	appMains.models.Submitquiz = Backbone.Model.extend({
+	  dao: appMains.dao.QuestDAO,
+			initialize: function() {
+				console.log('bye')
+			}
+	   
+	});
 
-appMains.models.SaveQuizAns = Backbone.Model.extend({
-  dao: appMains.dao.QuestDAO,
-        initialize: function() {
-            console.log('save')
-        }
-   
-});
+	appMains.models.SaveQuizAns = Backbone.Model.extend({
+	  dao: appMains.dao.QuestDAO,
+			initialize: function() {
+				console.log('save')
+			}   
+	});
 //model end//
 
 //collection start//
-appMains.collection.Submitquiz = Backbone.Collection.extend({
-  model: appMains.models.Submitquiz,
-  save: function(module){
-      
-          for(var i =0; i<=module.length-1;i++)
-          {
-             console.log(module[i]);
-              var submitquiz = new appMains.models.Submitquiz(); 
-              submitquiz.save(module[i],{dbOperation:'insertQuiz',success:function(data){
-                //  alert('Quiz list Added successfully'+ data);
-                   $('.modal-body').html('Quiz list Added successfully ' +data);
-                      $('#myModal').modal('show');
-                }});
+	appMains.collection.Submitquiz = Backbone.Collection.extend({
+	  model: appMains.models.Submitquiz,
+	  save: function(module){		  
+			  for(var i =0; i<=module.length-1;i++)
+			  {
+				 console.log(module[i]);
+				  var submitquiz = new appMains.models.Submitquiz(); 
+				  submitquiz.save(module[i],{dbOperation:'insertQuiz',success:function(data){
+					   $('.modal-body').html('Quiz list Added successfully ' +data);
+						$('#myModal').modal('show');
+					}});
+			  }
+	  }
+	});
 
-          }
+	appMains.collection.SaveQuizAns = Backbone.Collection.extend({
+	  model: appMains.models.SaveQuizAns,
+	  save: function(module){
+		  
+			  for(var i =0; i<=module.length-1;i++)
+			  {
+				 console.log(module[i]);
+				  var saveQuizAns = new appMains.models.SaveQuizAns(); 
+				  saveQuizAns.save(module[i],{dbOperation:'insertQuizAns',success:function(data){
+					  $('.modal-body').html('Ans successfully saved ' +data);
+					  $('#myModal').modal('show');
+					}});
+			  }
+	  }
+	});
 
-
-  }
-});
-
-appMains.collection.SaveQuizAns = Backbone.Collection.extend({
-  model: appMains.models.SaveQuizAns,
-  save: function(module){
-      
-          for(var i =0; i<=module.length-1;i++)
-          {
-             console.log(module[i]);
-              var saveQuizAns = new appMains.models.SaveQuizAns(); 
-              saveQuizAns.save(module[i],{dbOperation:'insertQuizAns',success:function(data){
-                // alert('Ans successfully saved');
-                  $('.modal-body').html('Ans successfully saved ' +data);
-                      $('#myModal').modal('show');
-
-                }});
-
-          }
-  }
-});
-
-appMains.collection.ShowQuizQuestion = Backbone.Collection.extend();
+	appMains.collection.ShowQuizQuestion = Backbone.Collection.extend();
 
 //collection end//
 
@@ -349,11 +337,8 @@ appMains.views.QuestionView = Backbone.View.extend({
             var question = new appMains.models.Question(); 
 
                 question.save(questionAns,{dbOperation:'insertQ',success:function(data){
-                   // alert('Question Added'+ data);
-
                      $('.modal-body').html('Question Added ' +data);
                       $('#myModal').modal('show');
-
                   }});
             
 
@@ -362,56 +347,50 @@ appMains.views.QuestionView = Backbone.View.extend({
     });
 
 
-appMains.views.SubmitQuizRow = Backbone.View.extend({
-        render: function(){
-        var template = _.template( $("#submitQuizRow").html(), {} );
-            this.$el.append( template );
-        }
-      });
 
+	var iq = 0;
+	var ansQ = 0;
+	var ansSub = [];
+	var questionCollection = [
+	  {
+		  question: '1 Why this ?',
+		  optionA:'a',
+		  optionB:'b',
+		  optionC:'c',
+		  optionD:'d',
+		  optionE:'e'
+	  },
+	  {
+		  question: '2 What is this ?',
+		  optionA:'a',
+		  optionB:'b',
+		  optionC:'c',
+		  optionD:'d',
+		  optionE:'e'
+	  },
+	  {
+		  question: '3 how?',
+		  optionA:'a',
+		  optionB:'b',
+		  optionC:'c',
+		  optionD:'d',
+		  optionE:'e'
+	  },
+	  {
+		  question: '4 When ?',
+		  optionA:'a',
+		  optionB:'b',
+		  optionC:'c',
+		  optionD:'d',
+		  optionE:'e'
+	  }
+	];
 
-
-var iq = 0;
-
- var questionCollection = [
-  {
-      question: '1 Why this ?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  },
-  {
-      question: '2 What is this ?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  },
-  {
-      question: '3 how?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  },
-  {
-      question: '4 When ?',
-      optionA:'a',
-      optionB:'b',
-      optionC:'c',
-      optionD:'d',
-      optionE:'e'
-  }
-];
-
-appMains.views.Submitquiz = Backbone.View.extend({
+	appMains.views.Submitquiz = Backbone.View.extend({
         tagName:"section",
         className:"questionView clearfix",
          template:$("#submitAnsTempate").html(),
+        
         collection: new appMains.collection.ShowQuizQuestion(questionCollection),
         render: function(){
         var template = _.template( $("#submitQuiz").html(), {} );
@@ -425,7 +404,7 @@ appMains.views.Submitquiz = Backbone.View.extend({
        },
         submitQuiz: function(ev){
              ev.preventDefault();
-           var that=this;
+            var that=this;
             var modelsarray = [];
 
              if(typeof(Storage) !== "undefined") {
@@ -463,31 +442,40 @@ appMains.views.Submitquiz = Backbone.View.extend({
         var tmpl = _.template(this.template); 
 
         var that = this;
-           if(iq<that.collection.models.length)
-               {  
+           if(iq<that.collection.models.length){  
               
                  this.$el.html(tmpl(that.collection.models[iq].attributes)); 
                    iq = iq + 1;
-                 console.log('sss'+ iq);
+            }
 
-               }
-               else
-               {
+             if(iq == 4)
+             {
                 $('#submitAns').addClass('hidden');
                 $('#submitAnsSubmit').removeClass('hidden');
-               }
-           
-          
+              }
+
+			var questionAnsSubmited = {
+                  time: '10',
+                  ans: $('input:radio[name=optionsAns]:checked').val()
+              };
+
+				var questionAnsSub = new appMains.models.SaveQuizAns();
+
+                questionAnsSub.save(questionAnsSubmited,{dbOperation:'insertQuizAns',success:function(data){
+              
+                     $('.modal-body').html('Answer save next' +data);
+                      $('#myModal').modal('show');
+
+                  }});
         
             return this;
 
       },
         addRowquiz: function(ev){
-             ev.preventDefault();
-             var submitQuizRow = new appMains.views.SubmitQuizRow({ el: $("#js-repeat-row") });
-                submitQuizRow.render();               
-                  
-              return false;
+            ev.preventDefault();
+			var template = _.template( $("#submitQuizRow").html(), {} );
+			$("#js-repeat-row").append( template );
+            return false;
         },
         removeRowquiz: function(ev){
           ev.preventDefault();
@@ -518,8 +506,6 @@ appMains.views.Submitquiz = Backbone.View.extend({
                     "style | color highlight removeformat | bullets numbering | outdent " +
                     "indent | alignleft center alignright justify | undo redo | " +
                     "rule image | source"})
-
-          // $('.navbar-nav li').removeClass('active');
         },
         show: function(){
             var submitquiz = new appMains.views.Submitquiz({ el: $("#container-area") });
@@ -532,15 +518,6 @@ appMains.views.Submitquiz = Backbone.View.extend({
 
     Backbone.history.start();
     window.appMains=appMains;
-   
-
-
-
-
-
-
-
-
 
     appMains.db = window.openDatabase("QuestDB", "1.0", "Quest DB", 200000);
     var questDAO = new appMains.dao.QuestDAO(appMains.db);
