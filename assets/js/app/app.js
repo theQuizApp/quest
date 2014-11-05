@@ -490,7 +490,8 @@ appMains.views.QuestionView = Backbone.View.extend({
             'show': 'show'
         },
         home: function(){
-
+            $(document).find('ul.navbar-nav li').removeClass('active');
+            $(document).find('ul.navbar-nav li.home').addClass('active');
         },
         insertQuestionForm: function(){
            var questionview = new appMains.views.QuestionView({ el: $("#container-area") });
@@ -502,11 +503,19 @@ appMains.views.QuestionView = Backbone.View.extend({
                     "bold italic underline strikethrough subscript superscript | font size " +
                     "style | color highlight removeformat | bullets numbering | outdent " +
                     "indent | alignleft center alignright justify | undo redo | " +
-                    "rule image | source"})
+                    "rule image | source"});
+
+             $(document).find('ul.navbar-nav li').removeClass('active');
+            $(document).find('ul.navbar-nav li.question').addClass('active');
+
         },
         show: function(){
             var submitquiz = new appMains.views.Submitquiz({ el: $("#container-area") });
            submitquiz.render();
+
+             $(document).find('ul.navbar-nav li').removeClass('active');
+            $(document).find('ul.navbar-nav li.start').addClass('active');
+
         }
     });
     //router end here
