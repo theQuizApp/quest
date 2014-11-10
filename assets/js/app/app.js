@@ -130,7 +130,7 @@ appMains.dao.QuestDAO = function(db) {
 						var sql = "SELECT * " +
 							"FROM question q " +
 							"WHERE q.id=:id";
-						console.log(sql)
+						console.log(sql);
 						tx.executeSql(sql, [id], function(tx, results) {
 							callback(results.rows.length === 1 ? results.rows.item(0) : null);
 						});
@@ -148,7 +148,7 @@ appMains.dao.QuestDAO = function(db) {
 						var sql = "SELECT * " +
 							"FROM quiz q " +
 							"WHERE q.id=:id";
-						console.log(sql)
+						console.log(sql);
 						tx.executeSql(sql, [id], function(tx, results) {
 							callback(results.rows.length === 1 ? results.rows.item(0) : null);
 						});
@@ -197,7 +197,7 @@ appMains.dao.QuestDAO = function(db) {
 					  tx.executeSql(sq2);
 					},
 					function success(tx, error) {
-						$('.modal-body').html('ERROR ' +error);
+							$('.modal-body').html('success ' +tx);
 							  $('#myModal').modal('show');
 					},
 					function error(tx) {
@@ -242,25 +242,25 @@ appMains.dao.QuestDAO = function(db) {
 
 	};
 	
-///model start//
+//model start//
 	appMains.models.Question = Backbone.Model.extend({
 		dao: appMains.dao.QuestDAO,
 			initialize: function() {
-				console.log('hi')
+				console.log('hi');
 			}
 	});
 
 	appMains.models.Quiz = Backbone.Model.extend({
 		dao: appMains.dao.QuestDAO,
 			initialize: function() {
-				console.log('hi')
+				console.log('hi');
 			}
 	});
 
 	appMains.models.Submitquiz = Backbone.Model.extend({
 	  dao: appMains.dao.QuestDAO,
 			initialize: function() {
-				console.log('bye')
+				console.log('bye');
 			}
 	   
 	});
@@ -268,7 +268,7 @@ appMains.dao.QuestDAO = function(db) {
 	appMains.models.SaveQuizAns = Backbone.Model.extend({
 	  dao: appMains.dao.QuestDAO,
 			initialize: function() {
-				console.log('save')
+				console.log('save');
 			}   
 	});
 //model end//
@@ -349,8 +349,7 @@ appMains.views.QuestionView = Backbone.View.extend({
 
 
 	var iq = 0;
-	var ansQ = 0;
-	var ansSub = [];
+
 	var questionCollection = [
 	  {
 		  question: '1 Why this ?',
