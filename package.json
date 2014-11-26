@@ -1,4 +1,9 @@
 {
   "name": "Quest",
-  "main": "home.html"
+  "main": "home.html",
+  "window":
+  {
+	"toolbar": false,
+	"frame":false
+  }
 }

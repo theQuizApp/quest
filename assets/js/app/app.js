@@ -9,9 +9,9 @@ var appMains = {
                 dao: {}
               };
 
-appMains.dao.QuestDAO = function(db) {
-    this.db = db;
-};
+	appMains.dao.QuestDAO = function(db) {
+		this.db = db;
+	};
 
 
 	_.extend(appMains.dao.QuestDAO.prototype, {
